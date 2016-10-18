@@ -135,6 +135,7 @@ window.template_dataattr = [
 | data	| object	|	数据源	|
 |	childName|	string	|	下一层数据的key的命名	|
 |	map	|	function	|	回调函数	|
+|	filter	|	function	|	回调函数 ture 返回当前元素 ; false 不返回	|
 
 ````js
 var treeMap = require('./lib/map.js')
@@ -143,8 +144,13 @@ var data = treeMap({
 	childName :  'node',
 	map :  function (item) {
 		item.value = item.value.toString()
+        return item
+	},
+	filter : function (item){
+		return (/2/g.test(item.value))
 	}
 })
+console.info(JSON.stringify(data))
 /*	template_dataattr 数据中每个 value 转换成字符类型
 [
     {
@@ -294,7 +300,7 @@ console.log(demo2.getAllChildIds())
 ````
 > 使用场景 : 操作某一项时可以获取当前项的ID, 利用 `getAllChildIds()` 可快速找出所有子孙元素id, 对这些子元素做全选或反选操作, 配合 `getValue()` 完成显示内容的渲染
 
-### 3. getData(String/Array)
+### getData(String/Array)
 > 获取当前 id 的所有数据
 >* 参数单独一个id : getData(id)
 
