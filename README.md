@@ -147,44 +147,33 @@ var data = treeMap({
         return item
 	},
 	filter : function (item){
-		return (/2/g.test(item.value))
+		return (!/2/g.test(item.value))
 	}
 })
-console.info(JSON.stringify(data))
+console.log(data)
 /*	template_dataattr 数据中每个 value 转换成字符类型
 [
     {
-        "value" : "1",
-        "name" : "name1",
-        "node" : [
+        "value": "1",
+        "name": "name1",
+        "node": [
             {
-                "value" : "11",
-                "name" : "name11",
-                "node" : [
+                "value": "11",
+                "name": "name11",
+                "node": [
                     {
-                        "value" : "111",
-                        "name" : "name111",
-                        "node" :  []
+                        "value": "111",
+                        "name": "name111",
+                        "node": []
                     }
                 ]
             }
         ]
-    },
+    }, 
     {
-        "value" : "2",
-        "name" : "name2",
-        "node" : [
-            {
-                "value" : "21",
-                "name" : "name21",
-                "node" : []
-            }
-        ]
-    },
-    {
-        "value" : "3",
-        "name" : "name3",
-        "node" : []
+        "value": "3",
+        "name": "name3",
+        "node": []
     }
 ]
 */
@@ -257,7 +246,7 @@ var demo = new TreeStore({
 > 传入 id 如果是 number 也会被转换为string 
 > 事例 :  https://github.com/fast-flow/tree-store/tree/master/example
 
-### getChildIds(String)
+### TreeStore.prototype.getChildIds(String)
 > 获取id下一层的所有id
 
 ````js
@@ -270,7 +259,7 @@ console.log(demo1.getChildIds("2"))
 ````
 > 使用场景 : 操作第一级下拉框某一项时可以获取当前项的ID, 利用 `getChildIds()` 可快速找出下一层子元素id, 可以立即获取第二级下拉框需要元素, 配合 `getValue()` 完成显示内容的渲染
 
-### getAllChildIds(String/Null) 
+### TreeStore.prototype.getAllChildIds(String/Null) 
 > 获取id下所有层级子孙元素 id 
 >* 有参数 id 时,当前 id 下所有层级的子孙元素 id 
 >* 没有参数id时,返回所有 id 下所有层级的子孙元素 id , 返回类型 object 
@@ -300,7 +289,7 @@ console.log(demo2.getAllChildIds())
 ````
 > 使用场景 : 操作某一项时可以获取当前项的ID, 利用 `getAllChildIds()` 可快速找出所有子孙元素id, 对这些子元素做全选或反选操作, 配合 `getValue()` 完成显示内容的渲染
 
-### getData(String/Array)
+### TreeStore.prototype.getData(String/Array)
 > 获取当前 id 的所有数据
 >* 参数单独一个id : getData(id)
 
@@ -360,7 +349,7 @@ console.log(demo3.getData(['3','2']))
 > 使用场景 : 获取某项/某些项的ID时,可以利用 `getData()` 得到当前ID的其他数据,前提是你有其他数据
 > 区分 : `getValue()` 只会得到ID对应的TEXT ; `getData()` 会得到ID所在的所有数据,包括TEXT,CHILD,...甚至ID本身
 
-### getParent(String)
+### TreeStore.prototype.getParent(String)
 > 获取当前id的第一个最近父元素id 
 
 ````js
@@ -372,7 +361,7 @@ console.log(demo4.getParent('1_1_1_1'))
 // "1_1_1"
 ````
 
-### getAllParent(String)
+### TreeStore.prototype.getAllParent(String)
 > 获取当前id的所有祖父元素id
 
 ````js
@@ -386,7 +375,7 @@ console.log(demo5.getAllParent('1_2'))
 > 使用场景 : 对某一列某一项进行操作时, 可以获取当前项的ID, 此列有选择/全反选时, 利用 `getAllParent()` 可以快速获取所有祖父元素, 进行相应关联状态的改变
 
 
-### getValue(String)
+### TreeStore.prototype.getValue(String)
 > 获取当前 id 所对应的 text 值
 
 ````js
@@ -399,7 +388,7 @@ console.log(demo6.getValue('1_1'))
 ````
 > 使用场景 : 操作某一项时可以获取当前项的ID, 利用 `getValue()` 方法获取其显示内容text, 将显示内容(重新)渲染出来
 
-### getFristChildIds(String)
+### TreeStore.prototype.getFristChildIds(String)
 > 获取当前id的所有第一层子元素及首个子孙元素
 >* 没有参数id时,默认取数据中第一层第一个id (当前模板数据中 第一层第一个id是 "1")
 
