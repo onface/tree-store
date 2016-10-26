@@ -9,12 +9,12 @@
 <!--
 markrun
 {
-    "m_lastRunThisScript": false
+    "lastrun": false
 }
 -->
 ````js
 // 在此处使用 markrun 导出模块到全局变量，供 test/**.js 使用
-window._Package = require('tree-store')
+window.TreeStore = require('tree-store')
 ````
 
 <script src="./test.demo.js" ></script>
