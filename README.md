@@ -241,7 +241,7 @@ console.log(data2)
 >#### *基础使用*
 > 数据源 需要符合两个条件
 >* 3.1 数据格式一致
->* 3.2 三个主要**key**的命名一致: **id** **value** **child**
+>* 3.2 三个主要**key**的命名一致: **id** **child**
 
 >#### *返回一个实例*
 >* 数据被存放在属性data中,请不要自行操作data
@@ -253,6 +253,16 @@ var data3 = TreeStore(template_data)
 
 ### 4. TreeStore(data,setting)
 >#### *数据的转化*
+
+```
+TreeStore(data,{
+    //模板数据 keyName 对应 示例数据的 DemokeyName
+    keyName :  DemokeyName, 
+    keyName2 :  DemokeyName2 , 
+    ...
+})
+```
+
 > 倘若, 示例数据在 上述条件 只满足 3.1
 > 那么, 将示例数据的 key 和模板数据的 key 做绑定
 >##### 注:不会直接对示例数据源进行操作
@@ -260,28 +270,30 @@ var data3 = TreeStore(template_data)
 ````js
 var TreeStore = require('tree-store') ;
 var data4 = TreeStore(template_data_attr,{
-    id :  'value', //模板数据 id 对应 示例数据的 value
-    child :  'node' //模板数据 child 对应 示例数据的 node
+    //模板数据 id 对应 示例数据的 value
+    id :  'value', 
+    //模板数据 child 对应 示例数据的 node
+    child :  'node' , 
 })
 console.log(data4.data)
 /*	示例数据经过处理后
 [
     {
         "id": 1,
-        "text": "name1",
+        "name": "name1",
         "child": [
             {
                 "id": 11,
-                "text": "name11",
+                "name": "name11",
                 "child": [
                     {
                         "id": 111,
-                        "text": "name111",
+                        "name": "name111",
                         "child": []
                     },
                     {
                         "id" : 112,
-                        "text" : "name112",
+                        "name" : "name112",
                         "child" :  []
                     }
                 ]
@@ -290,18 +302,18 @@ console.log(data4.data)
     }, 
     {
         "id": 2,
-        "text": "name2",
+        "name": "name2",
         "child": [
             {
                 "id": 21,
-                "text": "name21",
+                "name": "name21",
                 "child": []
             }
         ]
     }, 
     {
         "id": 3,
-        "text": "name3",
+        "name": "name3",
         "child": []
     }
 ]
@@ -756,7 +768,7 @@ console.log(demo11)
 > 返回当前所有下拉框渲染的数据
 
 ```
-treeStore( data ).renderSelect( {
+TreeStore( data ).renderSelect( {
     maxLength : Number,
     checked : [ id1 , id2 , ... ] ,
 } )
