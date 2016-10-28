@@ -18,43 +18,43 @@
 window.template_data  =  [
     {
         "id" : "1",
-        "value" : "text-1",
+        "text" : "text-1",
         "child" : [
             {
                 "id" : "1_1",
-                "value" : "text-1_1",
+                "text" : "text-1_1",
                 "child" : [
                     {
                         "id" : "1_1_1",
-                        "value" : "text-1_1_1",
+                        "text" : "text-1_1_1",
                         "child" :  [
                             {
                                 "id" :  "1_1_1_1",
-                                "value" :  "text-1_1_1_1"
+                                "text" :  "text-1_1_1_1"
                             },
                             {
                                 "id" :  "1_1_1_2",
-                                "value" :  "text-1_1_1_2"
+                                "text" :  "text-1_1_1_2"
                             }
                         ]
                     },
                     {
                         "id" : "1_1_2",
-                        "value" : "text-1_1_2"
+                        "text" : "text-1_1_2"
                     }
                 ]
             },
             {
                 "id" : "1_2",
-                "value" : "text-1_2",
+                "text" : "text-1_2",
                 "child" : [
                     {
                         "id" : "1_2_1",
-                        "value" : "text-1_2_1"
+                        "text" : "text-1_2_1"
                     },
                     {
                         "id" : "1_2_2",
-                        "value" : "text-1_2_2"
+                        "text" : "text-1_2_2"
                     }
                 ]
             }
@@ -62,23 +62,23 @@ window.template_data  =  [
     },
     {
         "id" : "2",
-        "value" : "text-2",
+        "text" : "text-2",
         "child" : [
             {
                 "id" : "2_1",
-                "value" : "text-2_1",
+                "text" : "text-2_1",
                 "child" : []
             },
             {
                 "id" : "2_2",
-                "value" : "text-2_2",
+                "text" : "text-2_2",
                 "child" : []
             },
         ]
     },
     {
         "id" : "3",
-        "value" : "text-3",
+        "text" : "text-3",
         "child" : []
     }
 ]
@@ -237,7 +237,6 @@ console.log(data2)
 */
 ````
 
-
 ### 3. TreeStore(data)
 >#### *基础使用*
 > 数据源 需要符合两个条件
@@ -262,7 +261,6 @@ var data3 = TreeStore(template_data)
 var TreeStore = require('tree-store') ;
 var data4 = TreeStore(template_data_attr,{
     id :  'value', //模板数据 id 对应 示例数据的 value
-    value :  'name', //模板数据 text 对应 示例数据的 name 
     child :  'node' //模板数据 child 对应 示例数据的 node
 })
 console.log(data4.data)
@@ -270,20 +268,20 @@ console.log(data4.data)
 [
     {
         "id": 1,
-        "value": "name1",
+        "text": "name1",
         "child": [
             {
                 "id": 11,
-                "value": "name11",
+                "text": "name11",
                 "child": [
                     {
                         "id": 111,
-                        "value": "name111",
+                        "text": "name111",
                         "child": []
                     },
                     {
                         "id" : 112,
-                        "value" : "name112",
+                        "text" : "name112",
                         "child" :  []
                     }
                 ]
@@ -292,24 +290,128 @@ console.log(data4.data)
     }, 
     {
         "id": 2,
-        "value": "name2",
+        "text": "name2",
         "child": [
             {
                 "id": 21,
-                "value": "name21",
+                "text": "name21",
                 "child": []
             }
         ]
     }, 
     {
         "id": 3,
-        "value": "name3",
+        "text": "name3",
         "child": []
     }
 ]
 */
 ````
 > 使用场景 : 项目数据已经成型,无法修改成模板标准数据时,添加第二个参数 将数据转化成标准数据
+
+
+### 5. TreeStore.extendChild(data,id,childData)
+> 将数组 `childData` 设置为某个 id 的 `child` 属性
+
+|   name    |   type    |   description |
+|----|----|----|
+| data  | Array    |   数据源  |
+| id  | String    |   某个id  |
+|   childData  |  Array  |   将设置为child的数据    |
+
+````js
+var TreeStore = require('tree-store') ;
+var data5 = TreeStore.extendChild(template_data,'1_1_2',[
+    {
+        id:'1_1_2_1',
+        text:'text-1_1_2_1',
+    },
+    {
+        id:'1_1_2_2',
+        text:'text-1_1_2_2',
+    }
+])
+console.log(data5)
+/*
+[
+    {
+        "id": "1",
+        "text": "text-1",
+        "child": [
+            {
+                "id": "1_1",
+                "text": "text-1_1",
+                "child": [
+                    {
+                        "id": "1_1_1",
+                        "text": "text-1_1_1",
+                        "child": [
+                            {
+                                "id": "1_1_1_1",
+                                "text": "text-1_1_1_1"
+                            },
+                            {
+                                "id": "1_1_1_2",
+                                "text": "text-1_1_1_2"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "1_1_2",
+                        "text": "text-1_1_2",
+                        "child": [
+                            {
+                                "id": "1_1_2_1",
+                                "text": "text-1_1_2_1"
+                            },
+                            {
+                                "id": "1_1_2_2",
+                                "text": "text-1_1_2_2"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "1_2",
+                "text": "text-1_2",
+                "child": [
+                    {
+                        "id": "1_2_1",
+                        "text": "text-1_2_1"
+                    },
+                    {
+                        "id": "1_2_2",
+                        "text": "text-1_2_2"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "2",
+        "text": "text-2",
+        "child": [
+            {
+                "id": "2_1",
+                "text": "text-2_1",
+                "child": []
+            },
+            {
+                "id": "2_2",
+                "text": "text-2_2",
+                "child": []
+            }
+        ]
+    },
+    {
+        "id": "3",
+        "text": "text-3",
+        "child": []
+    }
+]
+*/
+````
 
 ## API
 > 传入 id 如果是 number 也会被转换为string 
@@ -331,7 +433,7 @@ console.log(demo1.getChildIds(["1_2","2"]))
 ]
 */
 ````
-> 使用场景 : 操作第一级下拉框某一项时可以获取当前项的ID, 利用 `getChildIds()` 可快速找出下一层子元素id, 可以立即获取第二级下拉框需要元素, 配合 `getValue()` 完成显示内容的渲染
+> 使用场景 : 操作第一级下拉框某一项时可以获取当前项的ID, 利用 `getChildIds()` 可快速找出下一层子元素id, 可以立即获取第二级下拉框需要元素, 配合 `getData()` 完成显示内容的渲染
 
 ### TreeStore(data).getAllChildIds(String/Array/null) 
 > 获取id下所有层级子孙元素 id 
@@ -366,10 +468,10 @@ console.log( demo2.getChildAllIds() )
 }
 */
 ````
-> 使用场景 : 操作某一项时可以获取当前项的ID, 利用 `getChildAllIds()` 可快速找出所有子孙元素id, 对这些子元素做全选或反选操作, 配合 `getValue()` 完成显示内容的渲染
+> 使用场景 : 操作某一项时可以获取当前项的ID, 利用 `getChildAllIds()` 可快速找出所有子孙元素id, 对这些子元素做全选或反选操作, 配合 `getData()` 完成显示内容的渲染
 
 ### TreeStore(data).getData(String/Array)
-> 获取当前 id 的所有数据
+> 获取当前 id 的所有数据 , 包括TEXT,CHILD,...甚至ID本身
 >* 参数单独一个id : getData(id)
 >* 参数多个id : getData([id1,id2,...])
 
@@ -380,16 +482,16 @@ console.log(demo3.getData('2'))
 /*
 {
     "id": "2",
-    "value": "text-2",
+    "text": "text-2",
     "child": [
         {
             "id": "2_1",
-            "value": "text-2_1",
+            "text": "text-2_1",
             "child": []
         },
         {
             "id": "2_2",
-            "value": "text-2_2",
+            "text": "text-2_2",
             "child": []
         }
     ]
@@ -400,21 +502,21 @@ console.log(demo3.getData(['3','2']))
 [
     {
         "id": "3",
-        "value": "text-3",
+        "text": "text-3",
         "child": []
     }, 
     {
         "id": "2",
-        "value": "text-2",
+        "text": "text-2",
         "child": [
             {
                 "id": "2_1",
-                "value": "text-2_1",
+                "text": "text-2_1",
                 "child": []
             }, 
             {
                 "id": "2_2",
-                "value": "text-2_2",
+                "text": "text-2_2",
                 "child": []
             }
         ]
@@ -423,10 +525,6 @@ console.log(demo3.getData(['3','2']))
 */
 ````
 > 使用场景 : 获取某项/某些项的ID时,可以利用 `getData()` 得到当前ID的其他数据,前提是你有其他数据
->#### 区分 : `getValue()` 与 `getData()`
->* `getValue()` 只会得到ID对应的TEXT ; 
->* `getData()` 会得到ID所在的所有数据,包括TEXT,CHILD,...甚至ID本身
-
 
 ### TreeStore(data).getParentAllIds(String/Array)
 > 获取当前id的所有祖父元素id
@@ -434,10 +532,10 @@ console.log(demo3.getData(['3','2']))
 
 ````js
 var TreeStore = require('tree-store') ;
-var demo5 = TreeStore(template_data)
-console.log(demo5.getParentAllIds('1_1_2'))
+var demo4 = TreeStore(template_data)
+console.log(demo4.getParentAllIds('1_1_2'))
 // ["1_1","1"]
-console.log(demo5.getParentAllIds( [ '1_1_1_1' , '2_1' ] ) )
+console.log(demo4.getParentAllIds( [ '1_1_1_1' , '2_1' ] ) )
 /*
 [
     ["1_1_1","1_1","1"],
@@ -448,34 +546,21 @@ console.log(demo5.getParentAllIds( [ '1_1_1_1' , '2_1' ] ) )
 > 使用场景 : 对某一列某一项进行操作时, 可以获取当前项的ID, 此列有选择/全反选时, 利用 `getParentAllIds()` 可以快速获取所有祖父元素, 进行相应关联状态的改变
 
 
-### TreeStore(data).getValue(String/Array)
-> 获取当前 id 所对应的 value 值
-
-````js
-var TreeStore = require('tree-store') ;
-var demo6 = TreeStore(template_data)
-console.log(demo6.getValue('1_1'))
-// "text-1_1"
-console.log(demo6.getValue( [ '1_1_1' , '2_1' ] ) )
-// ["text-1_1_1", "text-2_1"]
-````
-> 使用场景 : 操作某一项时可以获取当前项的ID, 利用 `getValue()` 方法获取其显示内容text, 将显示内容(重新)渲染出来
-
 ### TreeStore(data).getChildLeftBranchIds(String/null)
 > 获取当前id的所有第一层子元素及首个子孙元素
 >* 没有参数id时,所有元素及首个子孙元素
 
 ````js
 var TreeStore = require('tree-store') ;
-var demo7 = TreeStore(template_data)
-console.log(demo7.getChildLeftBranchIds('1_1'))
+var demo6 = TreeStore(template_data)
+console.log(demo6.getChildLeftBranchIds('1_1'))
 /*
 [
     ["1_1_1","1_1_2"],
     ["1_1_1_1","1_1_1_2"]
 ]
 */
-console.log(demo7.getChildLeftBranchIds())
+console.log(demo6.getChildLeftBranchIds())
 /*
 [
     ["1","2","3"],
@@ -494,10 +579,10 @@ console.log(demo7.getChildLeftBranchIds())
 
 ````js
 var TreeStore = require('tree-store') ;
-var demo8 = TreeStore(template_data)
-console.log(demo8.getSiblingIds('1_1'))
+var demo7 = TreeStore(template_data)
+console.log(demo7.getSiblingIds('1_1'))
 // ["1_1","1_2"]
-console.log(demo8.getSiblingIds())
+console.log(demo7.getSiblingIds())
 // ["1", "2", "3"]
 ````
 > 使用场景 : 在下拉框中, 有默认值时, 利用 `getSiblingIds()` 方法可以快速渲染出对应下拉框选项
@@ -514,47 +599,47 @@ console.log(demo8.getSiblingIds())
 window.template_data_tree  =  [
     {
         "id" : "1",
-        "value" : "text-1",
+        "text" : "text-1",
         "child" : [
             {
                 "id" : "1_1",
-                "value" : "text-1_1",
+                "text" : "text-1_1",
                 "checked":true,
                 "child" : [
                     {
                         "id" : "1_1_1",
-                        "value" : "text-1_1_1",
+                        "text" : "text-1_1_1",
                         "checked":true,
                         "child" :  [
                             {
                                 "id" :  "1_1_1_1",
-                                "value" :  "text-1_1_1_1",
+                                "text" :  "text-1_1_1_1",
                                 "checked":true,
                             },
                             {
                                 "id" :  "1_1_1_2",
-                                "value" :  "text-1_1_1_2",
+                                "text" :  "text-1_1_1_2",
                                 "checked":true,
                             }
                         ]
                     },
                     {
                         "id" : "1_1_2",
-                        "value" : "text-1_1_2"
+                        "text" : "text-1_1_2"
                     }
                 ]
             },
             {
                 "id" : "1_2",
-                "value" : "text-1_2",
+                "text" : "text-1_2",
                 "child" : [
                     {
                         "id" : "1_2_1",
-                        "value" : "text-1_2_1"
+                        "text" : "text-1_2_1"
                     },
                     {
                         "id" : "1_2_2",
-                        "value" : "text-1_2_2"
+                        "text" : "text-1_2_2"
                     }
                 ]
             }
@@ -562,24 +647,24 @@ window.template_data_tree  =  [
     },
     {
         "id" : "2",
-        "value" : "text-2",
+        "text" : "text-2",
         "child" : [
             {
                 "id" : "2_1",
-                "value" : "text-2_1",
+                "text" : "text-2_1",
                 "checked":true,
                 "child" : []
             },
             {
                 "id" : "2_2",
-                "value" : "text-2_2",
+                "text" : "text-2_2",
                 "child" : []
             },
         ]
     },
     {
         "id" : "3",
-        "value" : "text-3",
+        "text" : "text-3",
         "child" : []
     }
 ]
@@ -591,8 +676,8 @@ window.template_data_tree  =  [
 
 ````js
 var TreeStore = require('tree-store') ;
-var demo9 = TreeStore(template_data_tree).getChecked()
-console.log(demo9)
+var demo8 = TreeStore(template_data_tree).getChecked()
+console.log(demo8)
 // ["1_1","1_1_1","1_1_1_1","1_1_1_2","2_1"]
 ````
 
@@ -620,12 +705,12 @@ treeStore( data ).changeChecked( {
 
 ````js
 var TreeStore = require('tree-store') ;
-var demo10 = TreeStore(template_data_tree).changeChecked({
+var demo9 = TreeStore(template_data_tree).changeChecked({
     id : '1_1_1',
     isChecked : true,
     checkedIds : [ '1' , '1_1' , '1_1_1' , '1_1_1_1' , '2' , '2_1' , '2_2' ]
 })
-console.log(demo10)
+console.log(demo9)
 /*
 {
     "change":{
@@ -635,12 +720,12 @@ console.log(demo10)
     "checked":["2","2_1","2_2"]
 }
 */
-var demo11 = TreeStore(template_data_tree).changeChecked({
+var demo10 = TreeStore(template_data_tree).changeChecked({
     id : '1_1_1',
     isChecked : false,
     checkedIds : [ '1' , '1_1' , '1_1_1' , '1_1_1_1' , '2' , '2_1' , '2_2' ]
 })
-console.log(demo11)
+console.log(demo10)
 /*
 {
     "change":{
@@ -656,37 +741,81 @@ console.log(demo11)
 > 为什么将以下API独立出来?
 > 因为它是对已有的API进行再次封装,使在级联下拉框业务场景中的数据操作更简便
 
+### TreeStore(data).changeSelect(String)
+> 根据传入的 id ,返回正确的选中id数组
+
+````js
+var TreeStore = require('tree-store') ;
+var demo11 = TreeStore(template_data).changeSelect('1_2')
+console.log(demo11)
+// ["1", "1_2", "1_2_1"]
+````
+
+
 ### TreeStore(data).renderSelect(Object)
+> 返回当前所有下拉框渲染的数据
 
 ```
 treeStore( data ).renderSelect( {
-    index : index,
-    checkedIds : [ id1 , id2 , ... ] ,
+    maxLength : Number,
+    checked : [ id1 , id2 , ... ] ,
 } )
 ```
 
 |    name   |    type   |   description    |
 |------|------|------|
-|    index   |    String   |    改变下拉框的索引序号(从0开始计数)   |
-|    checkedIds   |    Array   |    已选中的id ( 传入数组长度,需要与渲染的级联下拉框个数相同,没有默认值id时,请传空字符串,保证数组长度 )   |
+|    maxLength   |    Number   |    返回结果数组的最长长度(即 渲染的下拉框最多个数) , 此参数可省略  |
+|    checked   |    Array   |    已选中的id ( 传入数组长度,需要与渲染的级联下拉框个数相同,没有默认值id时,请传空字符串,保证数组长度 )   |
 
 
 ````js
 var TreeStore = require('tree-store') ;
 var demo12 = TreeStore(template_data).renderSelect({
-    index : 1,
-    checkedIds : ['1','1_2','1_1_1'] ,
+    checked : ["1", "1_2", "1_2_1"] ,
 })
 console.log(demo12)
 /*
-{
-    "checked":["1","1_2",""],
-    "renderList":[
-        ["1","2","3"],
-        ["1_1","1_2"],
-        ["1_2_1","1_2_2"]
-    ]
-}
+[
+        [
+                {
+                    "id" : "1",
+                    "text" : "text-1",
+                    "child" : [...]  //...是child中所有数据,为了更直观看到返回的数据结构,文档将其省略
+                },
+                {
+                    "id" : "2",
+                    "text" : "text-2",
+                    "child" : [...]  //...是child中所有数据,为了更直观看到返回的数据结构,文档将其省略
+                },
+                {
+                    "id" : "3",
+                    "text" : "text-3",
+                    "child" : []
+                }
+        ],
+                [
+                {
+                    "id" : "1_1",
+                    "text" : "text-1_1",
+                    "child" : [...]  //...是child中所有数据,为了更直观看到返回的数据结构,文档将其省略
+                },
+                {
+                    "id" : "1_2",
+                    "text" : "text-1_2",
+                    "child" : [...]  //...是child中所有数据,为了更直观看到返回的数据结构,文档将其省略
+                }
+        ],
+        [
+                {
+                    "id" : "1_2_1",
+                    "text" : "text-1_2_1"
+                },
+                {
+                    "id" : "1_2_2",
+                    "text" : "text-1_2_2"
+                }
+        ]
+]
 */
 ````
 
