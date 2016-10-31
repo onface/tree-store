@@ -8,6 +8,6 @@ only:
 - dev
 
 install:
-- npm update
+- npm install
 script:
 - npm run test
