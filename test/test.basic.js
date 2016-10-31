@@ -1,7 +1,14 @@
+if (typeof TreeStore ==='undefined') {
+    TreeStore = require('../output/index')
+}
+if (typeof expect ==='undefined') {
+    expect = require('expect.js')
+}
+
 describe('TreeStore', function() {
     describe('Initial Tests', function() {
         it('TreeStore(data) 数据获取', function() {
-        	let tree = TreeStore([
+        	var tree = TreeStore([
 			    {
 			        "id" : 1,
 			        "name" : "name1",
@@ -63,7 +70,7 @@ describe('TreeStore', function() {
 			]))
         })
         it('TreeStore(data,setting) 数据转换 (有id/child主key)', function() {
-        	let tree = TreeStore([
+        	var tree = TreeStore([
 			    {
 			        "value" : 1,
 			        "name" : "name1",
@@ -128,7 +135,7 @@ describe('TreeStore', function() {
 			]))
         })
         it('TreeStore(data,setting) 数据转换 (elseKeyName)', function() {
-        	let tree = TreeStore([
+        	var tree = TreeStore([
 			    {
 			        "id" : 1,
 			        "name" : "name1",
@@ -198,7 +205,7 @@ describe('TreeStore', function() {
     })
     describe('Function Tests', function() {
         it('TreeStore.treeMap(data,childName,fn) 数据遍历', function() {
-        	let tree = TreeStore.treeMap([
+        	var tree = TreeStore.treeMap([
 			    {
 			        "value" : 1,
 			        "name" : "name1",
@@ -273,7 +280,7 @@ describe('TreeStore', function() {
 			]))
         })
         it('TreeStore.treeFilter(data,childName,fn) 数据过滤', function() {
-        	let tree = TreeStore.treeFilter([
+        	var tree = TreeStore.treeFilter([
 			    {
 			        "value" : 1,
 			        "name" : "name1",
@@ -331,7 +338,7 @@ describe('TreeStore', function() {
 			]))
         })
         it('TreeStore.extendChild(data,id,childData) 数据拓展', function() {
-        	let tree = TreeStore.extendChild([
+        	var tree = TreeStore.extendChild([
 			    {
 			        "id" : 1,
 			        "name" : "name1",
@@ -416,7 +423,7 @@ describe('TreeStore', function() {
         })
     })
     describe('API Tests', function() {
-    	let tree = TreeStore([
+    	var tree = TreeStore([
 		    {
 		        "id" : "1",
 		        "text" : "text-1",
@@ -511,18 +518,18 @@ describe('TreeStore', function() {
         })
         it('TreeStore(data).getChildAllIds(null)', function() {
         	expect(JSON.stringify(tree.getChildAllIds())).to.equal(JSON.stringify({
-				"1" : [ "1_1" , "1_2" , "1_1_1" , "1_1_2" , "1_1_1_1" , "1_1_1_2" , "1_2_1" , "1_2_2" ] , 
-				"2" : [ "2_1" , "2_2" ] , 
-				"3" : [] , 
-				"1_1_1_1" : [] , 
-				"1_1_1_2" : [] , 
-				"1_1_1" : [ "1_1_1_1" , "1_1_1_2" ] , 
-				"1_1_2" : [] , 
-				"1_1" : [ "1_1_1" , "1_1_2" , "1_1_1_1" , "1_1_1_2" ] , 
-				"1_2_1" : [] , 
-				"1_2_2" : [] , 
-				"1_2" : [ "1_2_1" , "1_2_2" ] , 
-				"2_1" : [] , 
+				"1" : [ "1_1" , "1_2" , "1_1_1" , "1_1_2" , "1_1_1_1" , "1_1_1_2" , "1_2_1" , "1_2_2" ] ,
+				"2" : [ "2_1" , "2_2" ] ,
+				"3" : [] ,
+				"1_1_1_1" : [] ,
+				"1_1_1_2" : [] ,
+				"1_1_1" : [ "1_1_1_1" , "1_1_1_2" ] ,
+				"1_1_2" : [] ,
+				"1_1" : [ "1_1_1" , "1_1_2" , "1_1_1_1" , "1_1_1_2" ] ,
+				"1_2_1" : [] ,
+				"1_2_2" : [] ,
+				"1_2" : [ "1_2_1" , "1_2_2" ] ,
+				"2_1" : [] ,
 				"2_2" : []
         	}))
         })
@@ -612,7 +619,7 @@ describe('TreeStore', function() {
         })
     })
     describe('API-tree Tests', function() {
-    	let tree = TreeStore([
+    	var tree = TreeStore([
 		    {
 		        "id" : "1",
 		        "text" : "text-1",
@@ -717,7 +724,7 @@ describe('TreeStore', function() {
         })
     })
     describe('API-select Tests', function() {
-    	let tree = TreeStore([
+    	var tree = TreeStore([
 		    {
 		        "id" : "1",
 		        "text" : "text-1",
@@ -912,4 +919,3 @@ describe('TreeStore', function() {
         })
     })
 })
-

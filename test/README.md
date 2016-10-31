@@ -17,7 +17,7 @@ markrun
 window.TreeStore = require('tree-store')
 ````
 
-<script src="./test.demo.js" ></script>
+<script src="./test.basic.js" ></script>
 
 <script>
   mocha.checkLeaks();
