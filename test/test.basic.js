@@ -1,5 +1,5 @@
 if (typeof TreeStore ==='undefined') {
-    TreeStore = require('../output/index')
+    TreeStore = require('../index')
 }
 if (typeof expect ==='undefined') {
     expect = require('expect.js')
