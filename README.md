@@ -2,10 +2,18 @@
 
 > The methods of gaining valid data quickly based on the trees of data | 基于树形数据,能够快速获取有效数据的方法集
 
-> 构建系统基于 https : //github.com/fast-flow/boot
 
-- Online :  https : //fast-flow.github.io/tree-store/
-- Other version :  https : //github.com/fast-flow/tree-store/releases
+
+<!--MARKRUN-HTML
+<iframe src="https://ghbtns.com/github-btn.html?user=fast-flow&repo=tree-store&type=star&count=true" frameborder="0" scrolling="0" width="100px" height="30px"></iframe>
+<iframe src="https://ghbtns.com/github-btn.html?user=fast-flow&repo=tree-store&type=watch&count=true&v=2" frameborder="0" scrolling="0" width="100px" height="30px">
+-->
+
+[🔗 Live demo](https://fast-flow.github.io/tree-store/)  
+[🕐 Releases](https://github.com/fast-flow/tree-store/releases)
+
+[![Build Status](https://api.travis-ci.org/fast-flow/tree-store.svg)](https://travis-ci.org/fast-flow/tree-store) [![NPM version](https://img.shields.io/npm/v/tree-store.svg?style=flat)](https://npmjs.org/package/tree-store) [![NPM downloads](http://img.shields.io/npm/dm/tree-store.svg?style=flat)](https://npmjs.org/package/tree-store)
+
 
 
 ## 数据
@@ -171,7 +179,7 @@ console.log(data1)
                 ]
             }
         ]
-    }, 
+    },
     {
         "value": "id2",
         "name": "name2",
@@ -182,7 +190,7 @@ console.log(data1)
                 "node": []
             }
         ]
-    }, 
+    },
     {
         "value": "id3",
         "name": "name3",
@@ -227,7 +235,7 @@ console.log(data2)
                 ]
             }
         ]
-    }, 
+    },
     {
         "value": 3,
         "name": "name3",
@@ -257,8 +265,8 @@ var data3 = TreeStore(template_data)
 ```
 TreeStore(data,{
     //模板数据 keyName 对应 示例数据的 DemokeyName
-    keyName :  DemokeyName, 
-    keyName2 :  DemokeyName2 , 
+    keyName :  DemokeyName,
+    keyName2 :  DemokeyName2 ,
     ...
 })
 ```
@@ -271,9 +279,9 @@ TreeStore(data,{
 var TreeStore = require('tree-store') ;
 var data4 = TreeStore(template_data_attr,{
     //模板数据 id 对应 示例数据的 value
-    id :  'value', 
+    id :  'value',
     //模板数据 child 对应 示例数据的 node
-    child :  'node' , 
+    child :  'node' ,
 })
 console.log(data4.data)
 /*	示例数据经过处理后
@@ -299,7 +307,7 @@ console.log(data4.data)
                 ]
             }
         ]
-    }, 
+    },
     {
         "id": 2,
         "name": "name2",
@@ -310,7 +318,7 @@ console.log(data4.data)
                 "child": []
             }
         ]
-    }, 
+    },
     {
         "id": 3,
         "name": "name3",
@@ -426,7 +434,7 @@ console.log(data5)
 ````
 
 ## API
-> 传入 id 如果是 number 也会被转换为string 
+> 传入 id 如果是 number 也会被转换为string
 > 事例 :  https://github.com/fast-flow/tree-store/tree/master/example
 
 ### TreeStore(data).getChildIds(String/Array)
@@ -447,10 +455,10 @@ console.log(demo1.getChildIds(["1_2","2"]))
 ````
 > 使用场景 : 操作第一级下拉框某一项时可以获取当前项的ID, 利用 `getChildIds()` 可快速找出下一层子元素id, 可以立即获取第二级下拉框需要元素, 配合 `getData()` 完成显示内容的渲染
 
-### TreeStore(data).getChildAllIds(String/Array/null) 
-> 获取id下所有层级子孙元素 id 
->* 有参数 id 时,当前 id 下所有层级的子孙元素 id 
->* 没有参数id时,返回所有 id 下所有层级的子孙元素 id , 返回类型 object 
+### TreeStore(data).getChildAllIds(String/Array/null)
+> 获取id下所有层级子孙元素 id
+>* 有参数 id 时,当前 id 下所有层级的子孙元素 id
+>* 没有参数id时,返回所有 id 下所有层级的子孙元素 id , 返回类型 object
 
 
 ````js
@@ -516,7 +524,7 @@ console.log(demo3.getData(['3','2']))
         "id": "3",
         "text": "text-3",
         "child": []
-    }, 
+    },
     {
         "id": "2",
         "text": "text-2",
@@ -525,7 +533,7 @@ console.log(demo3.getData(['3','2']))
                 "id": "2_1",
                 "text": "text-2_1",
                 "child": []
-            }, 
+            },
             {
                 "id": "2_2",
                 "text": "text-2_2",
