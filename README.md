@@ -447,7 +447,7 @@ console.log(demo1.getChildIds(["1_2","2"]))
 ````
 > 使用场景 : 操作第一级下拉框某一项时可以获取当前项的ID, 利用 `getChildIds()` 可快速找出下一层子元素id, 可以立即获取第二级下拉框需要元素, 配合 `getData()` 完成显示内容的渲染
 
-### TreeStore(data).getAllChildIds(String/Array/null) 
+### TreeStore(data).getChildAllIds(String/Array/null) 
 > 获取id下所有层级子孙元素 id 
 >* 有参数 id 时,当前 id 下所有层级的子孙元素 id 
 >* 没有参数id时,返回所有 id 下所有层级的子孙元素 id , 返回类型 object 
@@ -559,7 +559,7 @@ console.log(demo4.getParentAllIds( [ '1_1_1_1' , '2_1' ] ) )
 
 
 ### TreeStore(data).getChildLeftBranchIds(String/null)
-> 获取当前id的所有第一层子元素及首个子孙元素
+> 获取当前id的所有第一层子元素及首个子孙元素(即 此id的子元素 并 取左叉树的子元素id为新的id 取其子元素 以此类推)
 >* 没有参数id时,所有元素及首个子孙元素
 
 ````js
