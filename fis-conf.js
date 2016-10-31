@@ -119,3 +119,6 @@ fis.media('npm').match('*.md', {
     rExt: 'md',
     parser:[]
 })
+fis.media('npm').match('(**)README.md', {
+    release: '$1README'
+})
