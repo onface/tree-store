@@ -1,0 +1,18 @@
+language: node_js
+
+node_js:
+- "4.1"
+- "4.0"
+- "0.12"
+- "0.11"
+branches:
+only:
+- master
+- dev
+
+install:
+- npm install
+- npm install fis3 --registry=https://registry.npm.taobao.org
+- ./node_modules/fis3/bin/fis release -wL -d ./output
+script:
+- npm run test
