@@ -27,6 +27,7 @@
     "babel-loader": "^6.2.5",
     "babel-preset-es2015": "^6.16.0",
     "babel-preset-react": "^6.16.0",
+    "classnames": "^2.2.5",
     "css-loader": "^0.23.1",
     "del": "^2.2.2",
     "each-file": "^1.1.0",

@@ -722,6 +722,74 @@ describe('TreeStore', function() {
 			    "checked":["1" , "1_1" , "1_1_1" , "1_1_1_1" , "1_2" , "1_2_1" , "1_2_2" , "2" , "2_1" , "2_2"]
 			}))
         })
+        it('TreeStore(data).changeChecked(Object) - autoLink(parent:false,child:false)', function() {
+        	expect(JSON.stringify(tree.changeChecked({
+			    id : '1_2',
+			    isChecked : false,
+			    checkedIds : [ '1' , '1_1' , '1_1_1' , '1_1_1_1' , '2' , '2_1' , '2_2' ],
+			    autoLink:{
+			    	parent:false,
+			    	child:false,
+			    }
+        	}))).to.equal(JSON.stringify({
+			    "change":{
+			        "unchecked_ids":[],
+			        "checked_ids":["1_2"]
+			    },
+			    "checked":[ "1" , "1_1" , "1_1_1" , "1_1_1_1" , "1_2" , "2" , "2_1" , "2_2" ],
+			}))
+        })
+        it('TreeStore(data).changeChecked(Object) - autoLink(parent:false,child:true)', function() {
+        	expect(JSON.stringify(tree.changeChecked({
+			    id : '1_2',
+			    isChecked : false,
+			    checkedIds : [ '1_1' , '1_1_1' , '1_1_1_1' , '2' , '2_1' , '2_2' ],
+			    autoLink:{
+			    	parent:false,
+			    	child:true,
+			    }
+        	}))).to.equal(JSON.stringify({
+			    "change":{
+			        "unchecked_ids":[],
+			        "checked_ids":[ "1_2_1" , "1_2_2" ,"1_2" ]
+			    },
+			    "checked":["1_1" , "1_1_1" , "1_1_1_1" , "1_2" , "1_2_1" , "1_2_2" , "2" , "2_1" , "2_2"]
+			}))
+        })
+        it('TreeStore(data).changeChecked(Object) - autoLink(parent:true,child:false)', function() {
+        	expect(JSON.stringify(tree.changeChecked({
+			    id : '1_2',
+			    isChecked : false,
+			    checkedIds : [ '1_1' , '1_1_1' , '1_1_1_1' , '2' , '2_1' , '2_2' ],
+			    autoLink:{
+			    	parent:true,
+			    	child:false,
+			    }
+        	}))).to.equal(JSON.stringify({
+			    "change":{
+			        "unchecked_ids":[],
+			        "checked_ids":["1" , "1_2" ]
+			    },
+			    "checked":[ '1' , '1_1' , '1_1_1' , '1_1_1_1' , "1_2" , '2' , '2_1' , '2_2' ]
+			}))
+        })
+        it('TreeStore(data).changeChecked(Object) - autoLink(parent:true,child:true)', function() {
+        	expect(JSON.stringify(tree.changeChecked({
+			    id : '1_2',
+			    isChecked : false,
+			    checkedIds : [ '1_1'  , '1_1_1_1' , '2' , '2_1' , '2_2' ],
+			    autoLink:{
+			    	parent:false,
+			    	child:false,
+			    }
+        	}))).to.equal(JSON.stringify({
+			    "change":{
+			        "unchecked_ids":[],
+			        "checked_ids":["1_2"]
+			    },
+			    "checked":[ '1_1'  , '1_1_1_1' , '1_2', '2' , '2_1' , '2_2' ],
+			}))
+        })
     })
     describe('API-select Tests', function() {
     	var tree = TreeStore([

@@ -18,9 +18,10 @@
 
 ## 数据
 > 所有id请保证唯一性,当 ID 出现重复时,组件会抛出错误
-> **template_data** 是模块标准格式化数据
+> 标准JSON格式
 
-### 模板数据 标准格式
+### 模板数据源
+> 所有的API都基于 两个主要key: **id** **child** , 可以存在任意符合json规则的其他keyname
 
 ````js
 window.template_data  =  [
@@ -93,6 +94,7 @@ window.template_data  =  [
 ````
 
 ### 示例数据源
+> 此数据缺少两个主要key: **id** **child** , 需要进行key的转化绑定 
 
 ````js
 window.template_data_attr = [
@@ -703,41 +705,45 @@ console.log(demo8)
 
 ### TreeStore(data).changeChecked(Object)
 > 改变任一id的选中状态,可以返回计算后的所有选中id
-> 默认是父子都关联状态(即 id状态改变,其祖父id及子孙id跟随改变) [待开发]
 
 ```
 treeStore( data ).changeChecked( {
     id : id,
     isChecked : Boolean ,
     checkedIds : [ id1 , id2 , ... ] ,
-    type : {
-        linkParent : true,
-        linkchild : true
+    autoLink : {
+        parent : true,
+        child : true
     }
 } )
 ```
 
-|    name   |   type    |    description   |
-|------|------|------|
-|    id   |    String   |   当前操作的id    |
-|    isChecked   |    Boolean   |   当前操作id的是否选中状态(change前一刻状态)    |
-|    checkedIds   |    Array   |    当前已选中的所有ID   |
+|    name   |    default   |   type    |    description   |
+|------|------|------|------|
+|    id   |     |    String   |   当前操作的id    |
+|    isChecked   |     |    Boolean   |   当前操作id的是否选中状态(change前一刻状态)    |
+|    checkedIds   |     |    Array   |    当前已选中的所有ID   |
+|    autoLink   |   true  |    Object   |    是否自动关联延伸到祖父元素和子孙元素 , 默认都关联   |
 
 ````js
 var TreeStore = require('tree-store') ;
 var demo9 = TreeStore(template_data_tree).changeChecked({
     id : '1_1_1',
     isChecked : true,
-    checkedIds : [ '1' , '1_1' , '1_1_1' , '1_1_1_1' , '2' , '2_1' , '2_2' ]
+    checkedIds : [ '1' , '1_1' , '1_1_1' , '1_1_1_1' , '2' , '2_1' , '2_2' ],
+    autoLink : {
+        parent : false,
+        child : false
+    }
 })
 console.log(demo9)
 /*
 {
     "change":{
-        "unchecked_ids":["1_1_1_1","1_1_1_2","1_1_1","1_1","1"],
+        "unchecked_ids":["1_1_1"],
         "checked_ids":[]
     },
-    "checked":["2","2_1","2_2"]
+    "checked":["1" , "1_1" , "1_1_1_1" , "2" , "2_1" , "2_2"]
 }
 */
 var demo10 = TreeStore(template_data_tree).changeChecked({
