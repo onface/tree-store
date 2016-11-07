@@ -686,11 +686,17 @@ html body {
 		__TreeStore.prototype.changeChecked = function (settings) {
 			var _this3 = this;
 
+			var self = this;
+			// 参数数据
 			var data = this.data;
 			var id = settings.id;
 			var isChecked = settings.isChecked;
 			var checkedIds = settings.checkedIds;
-			// '1_1_1', true, [ '1' , '1_1' , '1_1_1' , '1_1_1_1' , '2' , '2_1' , '2_2' ]
+			var autoLink = settings.autoLink || {};
+			autoLink.parent = typeof autoLink.parent == 'boolean' ? autoLink.parent : true;
+			autoLink.child = typeof autoLink.child == 'boolean' ? autoLink.child : true;
+
+			// 需要返回的数据
 			var result = {
 				change: {
 					unchecked_ids: [], //取消选中ids
@@ -698,42 +704,50 @@ html body {
 				},
 				checked: []
 			};
+
+			//更新取消选中unchecked_ids并去除checked存在项
 			if (isChecked) {
 				(function () {
-					//更新取消选中unchecked_ids并去除checked存在项
-					var temp_ids = _this3.childAllIds()[id];
+					var temp_ids = [];
+
+					// 判断是否关联子孙
+					temp_ids = autoLink.child ? temp_ids.concat(_this3.childAllIds()[id]) : [];
+
 					temp_ids.push(id);
-					var self = _this3
-					//递归遍历所有需要去除的祖父ids
-					;(function testParentChecked(id) {
-						//找出除自己以外的兄弟ids
-						var sibling_ids = [];
-						var temp_sibling_ids = self.childIds()[self.parentIds()[id]] || [];
-						var sibling_unchecked = temp_sibling_ids.length > 0 ? true : false; //判断兄弟ids是否是都取消状态
-						// alert(temp_sibling_ids.length)
-						if (temp_sibling_ids.length > 0) {
-							//有兄弟ids
-							temp_sibling_ids.forEach(function (item) {
-								if (item != id) {
-									sibling_ids.push(item);
-								}
-							});
-							//判断兄弟ids是否是都取消状态
-							checkedIds.forEach(function (item) {
-								sibling_ids.forEach(function (sib_item) {
-									if (item == sib_item) {
-										sibling_unchecked = false;
+
+					// 判断是否关联祖父
+					if (autoLink.parent) {
+						//递归遍历所有需要去除的祖父ids
+						;(function testParentChecked(id) {
+							//找出除自己以外的兄弟ids
+							var sibling_ids = [];
+							var temp_sibling_ids = self.childIds()[self.parentIds()[id]] || [];
+							var sibling_unchecked = temp_sibling_ids.length > 0 ? true : false; //判断兄弟ids是否是都取消状态
+							// alert(temp_sibling_ids.length)
+							if (temp_sibling_ids.length > 0) {
+								//有兄弟ids
+								temp_sibling_ids.forEach(function (item) {
+									if (item != id) {
+										sibling_ids.push(item);
 									}
 								});
-							});
-						}
-						//兄弟ids都取消,则父元素取消
-						if (sibling_unchecked) {
-							var parent_id = self.parentIds()[id];
-							temp_ids.push(parent_id);
-							testParentChecked(parent_id);
-						}
-					})(id);
+								//判断兄弟ids是否是都取消状态
+								checkedIds.forEach(function (item) {
+									sibling_ids.forEach(function (sib_item) {
+										if (item == sib_item) {
+											sibling_unchecked = false;
+										}
+									});
+								});
+							}
+							//兄弟ids都取消,则父元素取消
+							if (sibling_unchecked) {
+								var parent_id = self.parentIds()[id];
+								temp_ids.push(parent_id);
+								testParentChecked(parent_id);
+							}
+						})(id);
+					}
 
 					result.change.unchecked_ids = temp_ids;
 
@@ -749,12 +763,19 @@ html body {
 							result.checked.push(item);
 						}
 					});
+
+					//添加选中checked_ids并去重checked
 				})();
 			} else {
-				//添加选中checked_ids并去重checked
-				var _temp_ids = this.childAllIds()[id];
+				var _temp_ids = [];
+
+				// 判断是否关联子孙
+				_temp_ids = autoLink.child ? _temp_ids.concat(this.childAllIds()[id]) : [];
+
 				_temp_ids.push(id);
-				_temp_ids = _temp_ids.concat(this.parentAllIds()[id]).sort();
+
+				// 判断是否关联祖父
+				_temp_ids = autoLink.parent ? _temp_ids.concat(this.parentAllIds()[id]).sort() : _temp_ids;
 
 				var temp_checked_ids = JSON.parse(JSON.stringify(checkedIds));
 				temp_checked_ids = temp_checked_ids.concat(_temp_ids).sort();

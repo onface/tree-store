@@ -22,11 +22,12 @@ html body {
     margin-right: auto;
 }
 </style>
-<title> 级联下拉框-模拟ajax获取数据</title>
+<title> expand/collapse tree 展开/收缩 树形</title>
 </head>
 <body class="markdown-body" >
-<h1 id="-ajax-">级联下拉框-模拟ajax获取数据</h1>
-<div id="ajax_select"></div>
+<h1 id="expand-collapse-tree-">expand/collapse tree 展开/收缩 树形</h1>
+<div id="EC_tree"></div>
+
 
 <div class="markrun markrun--js" >
 	<div class="markrun-code" >
@@ -148,6 +149,10 @@ html body {
 
 		var _reactDom = __webpack_require__(5);
 
+		var _classnames = __webpack_require__(6);
+
+		var _classnames2 = _interopRequireDefault(_classnames);
+
 		function _interopRequireDefault(obj) {
 			return obj && obj.__esModule ? obj : { default: obj };
 		}
@@ -173,54 +178,153 @@ html body {
 		//数据源
 		var propsData = [{
 			"id": "1",
-			"text": "text-1"
+			"value": "value-1",
+			"child": [{
+				"id": "1_1",
+				"value": "value-1_1",
+				"checked": true,
+				"child": [{
+					"id": "1_1_1",
+					"value": "value-1_1_1",
+					"checked": true,
+					"child": [{
+						"id": "1_1_1_1",
+						"value": "value-1_1_1_1"
+					}, {
+						"id": "1_1_1_2",
+						"value": "value-1_1_1_2"
+					}]
+				}, {
+					"id": "1_1_2",
+					"value": "value-1_1_2"
+				}]
+			}, {
+				"id": "1_2",
+				"value": "value-1_2",
+				"child": [{
+					"id": "1_2_1",
+					"value": "value-1_2_1"
+				}, {
+					"id": "1_2_2",
+					"value": "value-1_2_2"
+				}]
+			}]
 		}, {
 			"id": "2",
-			"text": "text-2"
+			"value": "value-2",
+			"child": [{
+				"id": "2_1",
+				"value": "value-2_1",
+				"child": []
+			}, {
+				"id": "2_2",
+				"value": "value-2_2",
+				"child": []
+			}]
 		}, {
 			"id": "3",
-			"text": "text-3"
+			"value": "value-3",
+			"child": []
 		}];
 
-		var App = function (_Component) {
-			_inherits(App, _Component);
+		var Node = function (_Component) {
+			_inherits(Node, _Component);
+
+			function Node() {
+				_classCallCheck(this, Node);
+
+				return _possibleConstructorReturn(this, (Node.__proto__ || Object.getPrototypeOf(Node)).apply(this, arguments));
+			}
+
+			_createClass(Node, [{
+				key: "render",
+				value: function render() {
+					var props = this.props;
+					return React.createElement("ol", null, props.data.map(function (item, key) {
+						var checked = false;
+						for (var i in props.checked_ids) {
+							if (item.id == props.checked_ids[i]) {
+								checked = true;
+							}
+						}
+						var node = null;
+						if (item.child) {
+							node = React.createElement(Node, { data: item.child, checked_ids: props.checked_ids, open_ids: props.open_ids, change: props.change, open: props.open });
+						}
+						var icon = 'nochild';
+						if (Array.isArray(item.child)) {
+							icon = item.child.length > 0 ? '+' : icon;
+						}
+						for (var j in props.open_ids) {
+							if (item.id == props.open_ids[j]) {
+								icon = '-';
+							}
+						}
+						return React.createElement("li", { key: key }, React.createElement("span", { className: (0, _classnames2.default)({
+								"label": true,
+								"hide": icon == 'nochild'
+							}), onClick: function onClick() {
+								props.open(item.id);
+							} }, icon), React.createElement("input", { type: "checkbox", checked: checked, onChange: function onChange() {
+								props.change(item.id, checked);
+							} }), item.value, React.createElement("span", { className: (0, _classnames2.default)({
+								"hide": icon == '+'
+							}) }, node));
+					}));
+				}
+			}]);
+
+			return Node;
+		}(_react.Component);
+
+		var App = function (_Component2) {
+			_inherits(App, _Component2);
 
 			function App(props) {
 				_classCallCheck(this, App);
 
-				var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
+				var _this2 = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
 
-				var tree = (0, _treeStore2.default)(propsData);
-				var checked_ids = [tree.data[0].id];
-				_this.state = {
-					data: tree.data,
-					checked_ids: checked_ids };
-
-				return _this;
+				_this2.state = {
+					data: (0, _treeStore2.default)(propsData).data,
+					checked_ids: (0, _treeStore2.default)(propsData).getChecked() || [], //已选中的id
+					open_ids: [] };
+				return _this2;
 			}
 
 			_createClass(App, [{
 				key: "change",
-				value: function change(id) {
+				value: function change(id, checked) {
 					var self = this;
-					//模拟ajax获取到下一级数据 child_data
-					var child_data = [{
-						id: Math.round(Math.random() * 10e6).toString(),
-						text: 'text-' + Math.round(Math.random() * 10e6)
-					}, {
-						id: Math.round(Math.random() * 10e6).toString(),
-						text: 'text-' + Math.round(Math.random() * 10e6)
-					}];
-					// 获取到的数据拓展到数据源中
-					var data = _treeStore2.default.extendChild(self.state.data, id, child_data);
+					var result = (0, _treeStore2.default)(self.state.data).changeChecked({
+						id: id,
+						isChecked: checked,
+						checkedIds: self.state.checked_ids
+					});
 
-					var new_data = (0, _treeStore2.default)(data);
-					// 更新选中的id
-					var checked_ids = new_data.changeSelect(id);
-
+					this.setState({
+						checked_ids: result.checked
+					});
+				}
+			}, {
+				key: "open",
+				value: function open(id) {
+					var self = this;
+					var noexist = true;
+					var list = [];
+					id = id.toString();
+					self.state.open_ids.forEach(function (item) {
+						if (item == id) {
+							noexist = false;
+						} else {
+							list.push(item);
+						}
+					});
+					if (noexist) {
+						list.push(id);
+					}
 					self.setState({
-						data: data,
-						checked_ids: checked_ids
+						open_ids: list
 					});
 				}
 			}, {
@@ -228,21 +332,14 @@ html body {
 				value: function render() {
 					var self = this;
 					var state = this.state;
-					var list = (0, _treeStore2.default)(state.data).renderSelect({ checked: state.checked_ids });
-					return React.createElement("div", null, list.map(function (item, key) {
-						return React.createElement("select", { value: state.checked_ids[key], key: key, onChange: function onChange(e) {
-								self.change(e.target.value);
-							} }, item.map(function (sub_item, sub_key) {
-							return React.createElement("option", { key: sub_key, value: sub_item.id }, sub_item.text);
-						}));
-					}));
+					return React.createElement("div", null, React.createElement(Node, { data: state.data, checked_ids: state.checked_ids, open_ids: state.open_ids, change: this.change.bind(this), open: this.open.bind(this) }));
 				}
 			}]);
 
 			return App;
 		}(_react.Component);
 
-		(0, _reactDom.render)(React.createElement(App, null), document.getElementById('ajax_select'));
+		(0, _reactDom.render)(React.createElement(App, null), document.getElementById('EC_tree'));
 
 		/***/
 	},
@@ -935,6 +1032,60 @@ html body {
 		module.exports = ReactDOM;
 
 		/***/
+	},
+	/* 6 */
+	/***/function (module, exports, __webpack_require__) {
+
+		var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__; /*!
+	                                                                  Copyright (c) 2016 Jed Watson.
+	                                                                  Licensed under the MIT License (MIT), see
+	                                                                  http://jedwatson.github.io/classnames
+	                                                                  */
+		/* global define */
+
+		(function () {
+			'use strict';
+
+			var hasOwn = {}.hasOwnProperty;
+
+			function classNames() {
+				var classes = [];
+
+				for (var i = 0; i < arguments.length; i++) {
+					var arg = arguments[i];
+					if (!arg) continue;
+
+					var argType = typeof arg === "undefined" ? "undefined" : _typeof2(arg);
+
+					if (argType === 'string' || argType === 'number') {
+						classes.push(arg);
+					} else if (Array.isArray(arg)) {
+						classes.push(classNames.apply(null, arg));
+					} else if (argType === 'object') {
+						for (var key in arg) {
+							if (hasOwn.call(arg, key) && arg[key]) {
+								classes.push(key);
+							}
+						}
+					}
+				}
+
+				return classes.join(' ');
+			}
+
+			if (typeof module !== 'undefined' && module.exports) {
+				module.exports = classNames;
+			} else if (true) {
+				// register as 'classnames', consistent with npm package name
+				!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
+					return classNames;
+				}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+			} else {
+				window.classNames = classNames;
+			}
+		})();
+
+		/***/
 	}
 	/******/]);
 
@@ -947,89 +1098,208 @@ html body {
 <span class="hljs-keyword">var</span> propsData =  [
     {
         <span class="hljs-string">"id"</span> : <span class="hljs-string">"1"</span>,
-        <span class="hljs-string">"text"</span> : <span class="hljs-string">"text-1"</span>,
+        <span class="hljs-string">"value"</span> : <span class="hljs-string">"value-1"</span>,
+        <span class="hljs-string">"child"</span> : [
+            {
+                <span class="hljs-string">"id"</span> : <span class="hljs-string">"1_1"</span>,
+                <span class="hljs-string">"value"</span> : <span class="hljs-string">"value-1_1"</span>,
+                <span class="hljs-string">"checked"</span>:<span class="hljs-literal">true</span>,
+                <span class="hljs-string">"child"</span> : [
+                    {
+                        <span class="hljs-string">"id"</span> : <span class="hljs-string">"1_1_1"</span>,
+                        <span class="hljs-string">"value"</span> : <span class="hljs-string">"value-1_1_1"</span>,
+		                <span class="hljs-string">"checked"</span>:<span class="hljs-literal">true</span>,
+                        <span class="hljs-string">"child"</span> :  [
+                            {
+                                <span class="hljs-string">"id"</span> :  <span class="hljs-string">"1_1_1_1"</span>,
+                                <span class="hljs-string">"value"</span> :  <span class="hljs-string">"value-1_1_1_1"</span>
+                            },
+                            {
+                                <span class="hljs-string">"id"</span> :  <span class="hljs-string">"1_1_1_2"</span>,
+                                <span class="hljs-string">"value"</span> :  <span class="hljs-string">"value-1_1_1_2"</span>
+                            }
+                        ]
+                    },
+                    {
+                        <span class="hljs-string">"id"</span> : <span class="hljs-string">"1_1_2"</span>,
+                        <span class="hljs-string">"value"</span> : <span class="hljs-string">"value-1_1_2"</span>
+                    }
+                ]
+            },
+            {
+                <span class="hljs-string">"id"</span> : <span class="hljs-string">"1_2"</span>,
+                <span class="hljs-string">"value"</span> : <span class="hljs-string">"value-1_2"</span>,
+                <span class="hljs-string">"child"</span> : [
+                    {
+                        <span class="hljs-string">"id"</span> : <span class="hljs-string">"1_2_1"</span>,
+                        <span class="hljs-string">"value"</span> : <span class="hljs-string">"value-1_2_1"</span>
+                    },
+                    {
+                        <span class="hljs-string">"id"</span> : <span class="hljs-string">"1_2_2"</span>,
+                        <span class="hljs-string">"value"</span> : <span class="hljs-string">"value-1_2_2"</span>
+                    }
+                ]
+            }
+        ]
     },
     {
         <span class="hljs-string">"id"</span> : <span class="hljs-string">"2"</span>,
-        <span class="hljs-string">"text"</span> : <span class="hljs-string">"text-2"</span>,
+        <span class="hljs-string">"value"</span> : <span class="hljs-string">"value-2"</span>,
+        <span class="hljs-string">"child"</span> : [
+            {
+                <span class="hljs-string">"id"</span> : <span class="hljs-string">"2_1"</span>,
+                <span class="hljs-string">"value"</span> : <span class="hljs-string">"value-2_1"</span>,
+                <span class="hljs-string">"child"</span> : []
+            },
+            {
+                <span class="hljs-string">"id"</span> : <span class="hljs-string">"2_2"</span>,
+                <span class="hljs-string">"value"</span> : <span class="hljs-string">"value-2_2"</span>,
+                <span class="hljs-string">"child"</span> : []
+            },
+        ]
     },
     {
         <span class="hljs-string">"id"</span> : <span class="hljs-string">"3"</span>,
-        <span class="hljs-string">"text"</span> : <span class="hljs-string">"text-3"</span>,
+        <span class="hljs-string">"value"</span> : <span class="hljs-string">"value-3"</span>,
+        <span class="hljs-string">"child"</span> : []
     }
 ]
 
 <span class="hljs-keyword">import</span> TreeStore <span class="hljs-keyword">from</span> <span class="hljs-string">"tree-store"</span>
 <span class="hljs-keyword">import</span> { Component } <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>
 <span class="hljs-keyword">import</span> { render } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-dom"</span>
+<span class="hljs-keyword">import</span>  cls  <span class="hljs-keyword">from</span> <span class="hljs-string">"classnames"</span>
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">App</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Component</span> </span>{
-	<span class="hljs-keyword">constructor</span> ( props ) {
-		<span class="hljs-keyword">super</span>()
-		<span class="hljs-keyword">let</span> tree = TreeStore( propsData )
-		<span class="hljs-keyword">let</span> checked_ids = [tree.data[<span class="hljs-number">0</span>].id]
-		<span class="hljs-keyword">this</span>.state = {
-			<span class="hljs-attr">data</span> : tree.data ,
-			<span class="hljs-attr">checked_ids</span> : checked_ids , <span class="hljs-comment">//选中的id</span>
-		}
-
-	}
-	change ( id ) {
-		<span class="hljs-keyword">let</span> self = <span class="hljs-keyword">this</span>
-		<span class="hljs-comment">//模拟ajax获取到下一级数据 child_data</span>
-		<span class="hljs-keyword">let</span> child_data = [
-			{
-				<span class="hljs-attr">id</span> : <span class="hljs-built_in">Math</span>.round( <span class="hljs-built_in">Math</span>.random() * <span class="hljs-number">10e6</span> ).toString(),
-				<span class="hljs-attr">text</span> : <span class="hljs-string">'text-'</span> + <span class="hljs-built_in">Math</span>.round( <span class="hljs-built_in">Math</span>.random() * <span class="hljs-number">10e6</span> )
-			},
-			{
-				<span class="hljs-attr">id</span> : <span class="hljs-built_in">Math</span>.round( <span class="hljs-built_in">Math</span>.random() * <span class="hljs-number">10e6</span> ).toString(),
-				<span class="hljs-attr">text</span> : <span class="hljs-string">'text-'</span> + <span class="hljs-built_in">Math</span>.round( <span class="hljs-built_in">Math</span>.random() * <span class="hljs-number">10e6</span> )
-			}
-		]
-		<span class="hljs-comment">// 获取到的数据拓展到数据源中</span>
-		<span class="hljs-keyword">let</span> data = TreeStore.extendChild(self.state.data,id,child_data)
-
-		<span class="hljs-keyword">let</span> new_data = TreeStore(data)
-		<span class="hljs-comment">// 更新选中的id</span>
-		<span class="hljs-keyword">let</span> checked_ids = new_data.changeSelect(id)
-
-		self.setState({
-			<span class="hljs-attr">data</span> : data ,
-			<span class="hljs-attr">checked_ids</span> : checked_ids ,
-		})
-
-	}
-	render () {
-		<span class="hljs-keyword">let</span> self = <span class="hljs-keyword">this</span>
-		<span class="hljs-keyword">let</span> state = <span class="hljs-keyword">this</span>.state
-		<span class="hljs-keyword">let</span> list = TreeStore( state.data ).renderSelect({<span class="hljs-attr">checked</span>:state.checked_ids})
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Component</span> </span>{
+	render() {
+		<span class="hljs-keyword">let</span> props = <span class="hljs-keyword">this</span>.props
 		<span class="hljs-keyword">return</span> (
-			<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
-			{
-				list.map(function(item,key){
-					return (
-						<span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{state.checked_ids[key]}</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{key}</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{function(e){</span>
-							<span class="hljs-attr">self.change</span>(<span class="hljs-attr">e.target.value</span>)
-						}} &gt;</span>
-						{
-							item.map(function(sub_item,sub_key){
-								return (
-									<span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{sub_key}</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{sub_item.id}</span>&gt;</span>{sub_item.text}<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
-								)
-							})
+			&lt;ol&gt;
+				{
+					props.data.map(function (item, key){
+						var checked = false
+						for(let i in props.checked_ids){
+							if(item.id == props.checked_ids[i]){
+								checked = true
+							}
 						}
-						<span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span>
-					)
-				})
-			}
-			<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+						var node = null
+						if (item.child) {
+							node = (&lt;Node data={item.child} checked_ids={props.checked_ids} open_ids={props.open_ids} change={props.change} open={props.open} /&gt;)
+						}
+						var icon = 'nochild'
+						if(Array.isArray(item.child)){
+							icon = item.child.length &gt; 0 ? '+' : icon
+						}
+						for(let j in props.open_ids){
+							if(item.id == props.open_ids[j]){
+								icon = '-'
+							}
+						}
+						return (
+							&lt;li key={key} &gt;
+								&lt;span className={cls({
+									"label":true,
+									"hide" : icon == 'nochild'
+								})} onClick={function (){
+									props.open(item.id)
+								}} &gt;{icon}&lt;/span&gt;
+								&lt;input type="checkbox" checked={checked} onChange={function (){
+									props.change(item.id,checked)
+								}} /&gt;
+								{item.value}
+								&lt;span className={cls({
+									"hide" : icon == '+'
+								})}&gt;{node}&lt;/span&gt;
+							&lt;/li&gt;
+						)
+					})
+				}
+			&lt;/ol&gt;
 		)
 	}
 }
-render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>, document.getElementById('ajax_select'))
 
-</span></code></pre>
+class App extends Component {
+	constructor ( props ) {
+		super()
+		this.state = {
+			data : TreeStore( propsData ).data,
+			checked_ids : TreeStore( propsData ).getChecked() || [] , //已选中的id
+			open_ids : [], //展开的id
+		}
+	}
+	change ( id , checked ) {
+		var self = this
+		var result = TreeStore( self.state.data ).changeChecked({
+		    id : id ,
+		    isChecked : checked ,
+		    checkedIds : self.state.checked_ids
+		})
+		
+		this.setState({
+			checked_ids: result.checked
+		})
+	}
+	open ( id ) {
+		let self = this
+		let noexist = true
+		let list = []
+		id = id.toString()
+		self.state.open_ids.forEach(function(item){
+			if(item == id){
+				noexist = false
+			}else{
+				list.push(item)
+			}
+		})
+		if(noexist){
+			list.push(id)
+		}
+		self.setState({
+			open_ids:list
+		})
+	}
+	render () {
+		let self = this
+		let state = this.state
+		return (
+			&lt;div&gt;
+				&lt;Node data={state.data} checked_ids={state.checked_ids} open_ids={state.open_ids} change={this.change.bind(this)} open={this.open.bind(this)} /&gt;
+			&lt;/div&gt;
+		)
+	}
+}
+render(&lt;App /&gt;, document.getElementById('EC_tree'))
+</code></pre>
+	</div>
+</div>
+<div class="markrun markrun--css" >
+	<div class="markrun-code" >
+		<style type="text/css" >
+.label{
+	background-color: rgba(0,0,0,0.5);
+}
+.label:hover{
+	cursor: pointer;
+}
+.hide{
+	display:none !important;
+}
+</style>
+	</div>
+	<div class="markrun-pre">
+	<pre><code>
+<span class="hljs-selector-class">.label</span>{
+	<span class="hljs-attribute">background-color</span>: <span class="hljs-built_in">rgba</span>(0,0,0,0.5);
+}
+<span class="hljs-selector-class">.label</span><span class="hljs-selector-pseudo">:hover</span>{
+	<span class="hljs-attribute">cursor</span>: pointer;
+}
+<span class="hljs-selector-class">.hide</span>{
+	<span class="hljs-attribute">display</span>:none <span class="hljs-meta">!important</span>;
+}
+</code></pre>
 	</div>
 </div>
 

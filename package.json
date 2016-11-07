@@ -17,11 +17,9 @@
     "gh-push": "node ./_fastboot/gh-push",
     "npm": "node ./_fastboot/npm",
     "s": "node _fastboot/server",
-    "test": "mocha --timeout 60000"
+    "test": "./node_modules/mocha/bin/mocha --timeout 60000"
   },
   "dependencies": {
-    "react": "^0.14.8",
-    "react-dom": "^0.14.8",
     "uniq": "^1.0.1"
   },
   "devDependencies": {
@@ -29,22 +27,28 @@
     "babel-loader": "^6.2.5",
     "babel-preset-es2015": "^6.16.0",
     "babel-preset-react": "^6.16.0",
+    "classnames": "^2.2.5",
     "css-loader": "^0.23.1",
     "del": "^2.2.2",
     "each-file": "^1.1.0",
     "ejs": "^2.5.2",
     "es3ify-loader": "^0.2.0",
+    "expect.js": "^0.3.1",
     "fis-parser-less-2.x": "^0.1.4",
     "fis3-hook-relative": "^1.0.9",
     "fis3-parser-translate-es3ify": "0.0.2",
     "fis3-parser-webpack": "0.0.5",
     "fis3-preprocessor-autoprefixer": "^0.1.1",
     "gh-pages": "^0.11.0",
+    "graceful-fs": "^4.1.9",
     "hash-to-port": "^1.0.0",
     "less": "^2.7.1",
     "markrun": "0.0.3",
+    "mocha": "^3.1.2",
     "mv": "^2.1.1",
     "postcss": "^5.2.4",
+    "react": "^0.14.8",
+    "react-dom": "^0.14.8",
     "rm-r": "^1.0.2",
     "static-server": "^2.0.3",
     "style-loader": "^0.13.1"
