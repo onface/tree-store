@@ -533,6 +533,148 @@ describe('TreeStore', function() {
 				"2_2" : []
         	}))
         })
+        it('TreeStore(data).getData(null)', function() {
+        	expect(JSON.stringify(tree.getData())).to.equal(JSON.stringify({
+                "1": {
+                	"id": "1",
+                	"text": "text-1",
+                	"child": [
+	                	{
+	                		"id": "1_1",
+	                		"text": "text-1_1",
+	                		"child": [
+		                		{
+		                			"id": "1_1_1",
+		                			"text": "text-1_1_1",
+		                			"child": [
+			                			{
+			                				"id": "1_1_1_1",
+			                				"text": "text-1_1_1_1"
+			                			}, {
+			                				"id": "1_1_1_2",
+			                				"text": "text-1_1_1_2"
+			                			}
+		                			]
+		                		}, {
+		                			"id": "1_1_2",
+		                			"text": "text-1_1_2"
+		                		}
+	                		]
+	                	}, {
+	                		"id": "1_2",
+	                		"text": "text-1_2",
+	                		"child": [
+		                		{
+		                			"id": "1_2_1",
+		                			"text": "text-1_2_1"
+		                		}, {
+		                			"id": "1_2_2",
+		                			"text": "text-1_2_2"
+		                		}
+	                		]
+	                	}
+                	]
+                },
+                "2": {
+                	"id": "2",
+                	"text": "text-2",
+                	"child": [
+	                	{
+	                		"id": "2_1",
+	                		"text": "text-2_1",
+	                		"child": []
+	                	}, {
+	                		"id": "2_2",
+	                		"text": "text-2_2",
+	                		"child": []
+	                	}
+                	]
+                },
+                "3": {
+                	"id": "3",
+                	"text": "text-3",
+                	"child": []
+                },
+                "1_1": {
+                	"id": "1_1",
+                	"text": "text-1_1",
+                	"child": [
+	                	{
+	                		"id": "1_1_1",
+	                		"text": "text-1_1_1",
+	                		"child": [
+		                		{
+		                			"id": "1_1_1_1",
+		                			"text": "text-1_1_1_1"
+		                		}, {
+		                			"id": "1_1_1_2",
+		                			"text": "text-1_1_1_2"
+		                		}
+	                		]
+	                	}, {
+	                		"id": "1_1_2",
+	                		"text": "text-1_1_2"
+	                	}
+                	]
+                },
+                "1_1_1": {
+                	"id": "1_1_1",
+                	"text": "text-1_1_1",
+                	"child": [
+	                	{
+	                		"id": "1_1_1_1",
+	                		"text": "text-1_1_1_1"
+	                	}, {
+	                		"id": "1_1_1_2",
+	                		"text": "text-1_1_1_2"
+	                	}
+                	]
+                },
+                "1_1_1_1": {
+                	"id": "1_1_1_1",
+                	"text": "text-1_1_1_1"
+                },
+                "1_1_1_2": {
+                	"id": "1_1_1_2",
+                	"text": "text-1_1_1_2"
+                },
+                "1_1_2": {
+                	"id": "1_1_2",
+                	"text": "text-1_1_2"
+                },
+                "1_2": {
+                	"id": "1_2",
+                	"text": "text-1_2",
+                	"child": [
+	                	{
+	                		"id": "1_2_1",
+	                		"text": "text-1_2_1"
+	                	}, {
+	                		"id": "1_2_2",
+	                		"text": "text-1_2_2"
+	                	}
+                	]
+                },
+                "1_2_1": {
+                	"id": "1_2_1",
+                	"text": "text-1_2_1"
+                },
+                "1_2_2": {
+                	"id": "1_2_2",
+                	"text": "text-1_2_2"
+                },
+                "2_1": {
+                	"id": "2_1",
+                	"text": "text-2_1",
+                	"child": []
+                },
+                "2_2": {
+                	"id": "2_2",
+                	"text": "text-2_2",
+                	"child": []
+                }
+        	}))
+        })
         it('TreeStore(data).getData(String)', function() {
         	expect(JSON.stringify(tree.getData('1_1'))).to.equal(JSON.stringify({
                 "id" : "1_1",
