@@ -142,21 +142,24 @@ window.template_data_attr = [
 ## 数据处理
 >### **注 : 所有的方法或API调用都不会直接对数据源进行任何改变**
 
-### 1. TreeStore.treeMap(data,childName,fn)
+### 1. TreeStore.treeMap(data,childName,fn, parentArray)
 > 可以遍历所有数据, 在 `fn(item)` 需要 `return item`
 
-|	name	|	type	|	description	|
-|----|----|----|
-| data	| Object	|	数据源	|
-|	childName|	String	|	下一层数据的key的命名	|
-|	fn	|	function	|	回调函数	|
+|   name    |   type    |   description | return |
+|----|----|----|----|
+| data  | Object    |   数据源 |  |
+|   childName|  String  |   下一层数据的key的命名    |  |
+|   fn  |   function(item)    |   回调函数    |  |
+|   parentArray  |   Boolean    |   返回所有祖父元素(默认false)   | Array |
 
 ````js
 var TreeStore = require('tree-store') ;
 var data1 = TreeStore.treeMap( template_data_attr , 'node' , function ( item ) {
+    // 如果配置parentArray 则可以打印出此属性
+    console.log(item.value,item['__TreeStore_parentArray'])
     item.value = 'id'+item.value.toString()
     return item
-})
+} , true )
 console.log(data1)
 /*	template_data_attr 数据中每个 value 转换成字符类型 并添加id前缀
 [
