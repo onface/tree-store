@@ -872,7 +872,7 @@ window.template_data_tree  =  [
 
 ### TreeStore(data).getChecked()
 > 找出数据源中所有checked属性为true的id并返回
-> 此API使用前提 : 数据中有checked属性
+> 此API使用前提 : 数据中有checked属性  !!Q:(欲有isChecked初始值首次获取checkIds)
 
 ````js
 var TreeStore = require('tree-store') ;
