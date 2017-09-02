@@ -1201,6 +1201,36 @@ html body {
 
 		//拓展数据
 		TreeStore.extendChild = function (data, id, childData) {
+
+			var extendFn = function extendFn(attrChildData) {
+				// 以id标识 重复-覆盖,不存在-添加
+				if (Array.isArray(attrChildData)) {
+					(function () {
+						var originIdMap = {};
+						attrChildData.forEach(function (originItem, originIndex) {
+							originIdMap[originItem.id] = originIndex;
+						});
+						TreeStore.treeMap(childData, 'child', function (outputItem) {
+							var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
+							if (exist) {
+								console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
+								attrChildData[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
+							} else {
+								attrChildData.push(extend(true, {}, outputItem));
+							}
+						});
+					})();
+				} else {
+					attrChildData = childData;
+				}
+				return attrChildData;
+			};
+
+			// 顶层直接放置
+			if (id === '') {
+				return extendFn(data);
+			}
+
 			//检测是否数字类型并转化
 			if (typeof id == 'number') {
 				console.warn(id + ' is number , its should be set to string');
@@ -1216,26 +1246,7 @@ html body {
 						addData(item.child);
 					}
 					if (item.id == id) {
-						// 以id标识 重复-覆盖,不存在-添加
-						if (Array.isArray(item.child)) {
-							(function () {
-								var originIdMap = {};
-								item.child.forEach(function (originItem, originIndex) {
-									originIdMap[originItem.id] = originIndex;
-								});
-								TreeStore.treeMap(childData, 'child', function (outputItem) {
-									var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
-									if (exist) {
-										console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
-										item.child[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
-									} else {
-										item.child.push(extend(true, {}, outputItem));
-									}
-								});
-							})();
-						} else {
-							item.child = childData;
-						}
+						item.child = extendFn(item.child);
 					}
 				});
 			})(data);
@@ -2218,6 +2229,36 @@ html body {
 
 		//拓展数据
 		TreeStore.extendChild = function (data, id, childData) {
+
+			var extendFn = function extendFn(attrChildData) {
+				// 以id标识 重复-覆盖,不存在-添加
+				if (Array.isArray(attrChildData)) {
+					(function () {
+						var originIdMap = {};
+						attrChildData.forEach(function (originItem, originIndex) {
+							originIdMap[originItem.id] = originIndex;
+						});
+						TreeStore.treeMap(childData, 'child', function (outputItem) {
+							var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
+							if (exist) {
+								console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
+								attrChildData[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
+							} else {
+								attrChildData.push(extend(true, {}, outputItem));
+							}
+						});
+					})();
+				} else {
+					attrChildData = childData;
+				}
+				return attrChildData;
+			};
+
+			// 顶层直接放置
+			if (id === '') {
+				return extendFn(data);
+			}
+
 			//检测是否数字类型并转化
 			if (typeof id == 'number') {
 				console.warn(id + ' is number , its should be set to string');
@@ -2233,26 +2274,7 @@ html body {
 						addData(item.child);
 					}
 					if (item.id == id) {
-						// 以id标识 重复-覆盖,不存在-添加
-						if (Array.isArray(item.child)) {
-							(function () {
-								var originIdMap = {};
-								item.child.forEach(function (originItem, originIndex) {
-									originIdMap[originItem.id] = originIndex;
-								});
-								TreeStore.treeMap(childData, 'child', function (outputItem) {
-									var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
-									if (exist) {
-										console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
-										item.child[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
-									} else {
-										item.child.push(extend(true, {}, outputItem));
-									}
-								});
-							})();
-						} else {
-							item.child = childData;
-						}
+						item.child = extendFn(item.child);
 					}
 				});
 			})(data);
@@ -3165,6 +3187,36 @@ html body {
 
 		//拓展数据
 		TreeStore.extendChild = function (data, id, childData) {
+
+			var extendFn = function extendFn(attrChildData) {
+				// 以id标识 重复-覆盖,不存在-添加
+				if (Array.isArray(attrChildData)) {
+					(function () {
+						var originIdMap = {};
+						attrChildData.forEach(function (originItem, originIndex) {
+							originIdMap[originItem.id] = originIndex;
+						});
+						TreeStore.treeMap(childData, 'child', function (outputItem) {
+							var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
+							if (exist) {
+								console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
+								attrChildData[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
+							} else {
+								attrChildData.push(extend(true, {}, outputItem));
+							}
+						});
+					})();
+				} else {
+					attrChildData = childData;
+				}
+				return attrChildData;
+			};
+
+			// 顶层直接放置
+			if (id === '') {
+				return extendFn(data);
+			}
+
 			//检测是否数字类型并转化
 			if (typeof id == 'number') {
 				console.warn(id + ' is number , its should be set to string');
@@ -3180,26 +3232,7 @@ html body {
 						addData(item.child);
 					}
 					if (item.id == id) {
-						// 以id标识 重复-覆盖,不存在-添加
-						if (Array.isArray(item.child)) {
-							(function () {
-								var originIdMap = {};
-								item.child.forEach(function (originItem, originIndex) {
-									originIdMap[originItem.id] = originIndex;
-								});
-								TreeStore.treeMap(childData, 'child', function (outputItem) {
-									var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
-									if (exist) {
-										console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
-										item.child[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
-									} else {
-										item.child.push(extend(true, {}, outputItem));
-									}
-								});
-							})();
-						} else {
-							item.child = childData;
-						}
+						item.child = extendFn(item.child);
 					}
 				});
 			})(data);
@@ -4132,6 +4165,36 @@ html body {
 
 		//拓展数据
 		TreeStore.extendChild = function (data, id, childData) {
+
+			var extendFn = function extendFn(attrChildData) {
+				// 以id标识 重复-覆盖,不存在-添加
+				if (Array.isArray(attrChildData)) {
+					(function () {
+						var originIdMap = {};
+						attrChildData.forEach(function (originItem, originIndex) {
+							originIdMap[originItem.id] = originIndex;
+						});
+						TreeStore.treeMap(childData, 'child', function (outputItem) {
+							var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
+							if (exist) {
+								console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
+								attrChildData[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
+							} else {
+								attrChildData.push(extend(true, {}, outputItem));
+							}
+						});
+					})();
+				} else {
+					attrChildData = childData;
+				}
+				return attrChildData;
+			};
+
+			// 顶层直接放置
+			if (id === '') {
+				return extendFn(data);
+			}
+
 			//检测是否数字类型并转化
 			if (typeof id == 'number') {
 				console.warn(id + ' is number , its should be set to string');
@@ -4147,26 +4210,7 @@ html body {
 						addData(item.child);
 					}
 					if (item.id == id) {
-						// 以id标识 重复-覆盖,不存在-添加
-						if (Array.isArray(item.child)) {
-							(function () {
-								var originIdMap = {};
-								item.child.forEach(function (originItem, originIndex) {
-									originIdMap[originItem.id] = originIndex;
-								});
-								TreeStore.treeMap(childData, 'child', function (outputItem) {
-									var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
-									if (exist) {
-										console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
-										item.child[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
-									} else {
-										item.child.push(extend(true, {}, outputItem));
-									}
-								});
-							})();
-						} else {
-							item.child = childData;
-						}
+						item.child = extendFn(item.child);
 					}
 				});
 			})(data);
@@ -4571,14 +4615,14 @@ html body {
 		'use strict';
 
 		var TreeStore = __webpack_require__(1);
-		var data5 = TreeStore.extendChild(template_data, '1_1_1', [{
+		var data5 = TreeStore.extendChild(template_data, '1_1_2', [{
 			id: '1_1_2_1',
 			text: 'text-1_1_2_1'
 		}, {
 			id: '1_1_2_2',
 			text: 'text-1_1_2_2'
 		}]);
-		console.log("data5 : \n", JSON.stringify(data5));
+		console.log("data5 : \n", data5);
 		/*
 	 [
 	     {
@@ -5204,6 +5248,36 @@ html body {
 
 		//拓展数据
 		TreeStore.extendChild = function (data, id, childData) {
+
+			var extendFn = function extendFn(attrChildData) {
+				// 以id标识 重复-覆盖,不存在-添加
+				if (Array.isArray(attrChildData)) {
+					(function () {
+						var originIdMap = {};
+						attrChildData.forEach(function (originItem, originIndex) {
+							originIdMap[originItem.id] = originIndex;
+						});
+						TreeStore.treeMap(childData, 'child', function (outputItem) {
+							var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
+							if (exist) {
+								console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
+								attrChildData[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
+							} else {
+								attrChildData.push(extend(true, {}, outputItem));
+							}
+						});
+					})();
+				} else {
+					attrChildData = childData;
+				}
+				return attrChildData;
+			};
+
+			// 顶层直接放置
+			if (id === '') {
+				return extendFn(data);
+			}
+
 			//检测是否数字类型并转化
 			if (typeof id == 'number') {
 				console.warn(id + ' is number , its should be set to string');
@@ -5219,26 +5293,7 @@ html body {
 						addData(item.child);
 					}
 					if (item.id == id) {
-						// 以id标识 重复-覆盖,不存在-添加
-						if (Array.isArray(item.child)) {
-							(function () {
-								var originIdMap = {};
-								item.child.forEach(function (originItem, originIndex) {
-									originIdMap[originItem.id] = originIndex;
-								});
-								TreeStore.treeMap(childData, 'child', function (outputItem) {
-									var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
-									if (exist) {
-										console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
-										item.child[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
-									} else {
-										item.child.push(extend(true, {}, outputItem));
-									}
-								});
-							})();
-						} else {
-							item.child = childData;
-						}
+						item.child = extendFn(item.child);
 					}
 				});
 			})(data);
@@ -5455,7 +5510,7 @@ html body {
 	<div class="markrun-pre">
 	<pre><code>
 <span class="hljs-keyword">var</span> TreeStore = <span class="hljs-built_in">require</span>(<span class="hljs-string">'tree-store'</span>) ;
-<span class="hljs-keyword">var</span> data5 = TreeStore.extendChild(template_data,<span class="hljs-string">'1_1_1'</span>,[
+<span class="hljs-keyword">var</span> data5 = TreeStore.extendChild(template_data,<span class="hljs-string">'1_1_2'</span>,[
     {
         <span class="hljs-attr">id</span>:<span class="hljs-string">'1_1_2_1'</span>,
         <span class="hljs-attr">text</span>:<span class="hljs-string">'text-1_1_2_1'</span>,
@@ -5465,7 +5520,7 @@ html body {
         <span class="hljs-attr">text</span>:<span class="hljs-string">'text-1_1_2_2'</span>,
     }
 ])
-<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"data5 : \n"</span>,<span class="hljs-built_in">JSON</span>.stringify(data5))
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"data5 : \n"</span>,data5)
 <span class="hljs-comment">/*
 [
     {
@@ -6215,6 +6270,36 @@ html body {
 
 		//拓展数据
 		TreeStore.extendChild = function (data, id, childData) {
+
+			var extendFn = function extendFn(attrChildData) {
+				// 以id标识 重复-覆盖,不存在-添加
+				if (Array.isArray(attrChildData)) {
+					(function () {
+						var originIdMap = {};
+						attrChildData.forEach(function (originItem, originIndex) {
+							originIdMap[originItem.id] = originIndex;
+						});
+						TreeStore.treeMap(childData, 'child', function (outputItem) {
+							var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
+							if (exist) {
+								console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
+								attrChildData[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
+							} else {
+								attrChildData.push(extend(true, {}, outputItem));
+							}
+						});
+					})();
+				} else {
+					attrChildData = childData;
+				}
+				return attrChildData;
+			};
+
+			// 顶层直接放置
+			if (id === '') {
+				return extendFn(data);
+			}
+
 			//检测是否数字类型并转化
 			if (typeof id == 'number') {
 				console.warn(id + ' is number , its should be set to string');
@@ -6230,26 +6315,7 @@ html body {
 						addData(item.child);
 					}
 					if (item.id == id) {
-						// 以id标识 重复-覆盖,不存在-添加
-						if (Array.isArray(item.child)) {
-							(function () {
-								var originIdMap = {};
-								item.child.forEach(function (originItem, originIndex) {
-									originIdMap[originItem.id] = originIndex;
-								});
-								TreeStore.treeMap(childData, 'child', function (outputItem) {
-									var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
-									if (exist) {
-										console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
-										item.child[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
-									} else {
-										item.child.push(extend(true, {}, outputItem));
-									}
-								});
-							})();
-						} else {
-							item.child = childData;
-						}
+						item.child = extendFn(item.child);
 					}
 				});
 			})(data);
@@ -7163,6 +7229,36 @@ html body {
 
 		//拓展数据
 		TreeStore.extendChild = function (data, id, childData) {
+
+			var extendFn = function extendFn(attrChildData) {
+				// 以id标识 重复-覆盖,不存在-添加
+				if (Array.isArray(attrChildData)) {
+					(function () {
+						var originIdMap = {};
+						attrChildData.forEach(function (originItem, originIndex) {
+							originIdMap[originItem.id] = originIndex;
+						});
+						TreeStore.treeMap(childData, 'child', function (outputItem) {
+							var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
+							if (exist) {
+								console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
+								attrChildData[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
+							} else {
+								attrChildData.push(extend(true, {}, outputItem));
+							}
+						});
+					})();
+				} else {
+					attrChildData = childData;
+				}
+				return attrChildData;
+			};
+
+			// 顶层直接放置
+			if (id === '') {
+				return extendFn(data);
+			}
+
 			//检测是否数字类型并转化
 			if (typeof id == 'number') {
 				console.warn(id + ' is number , its should be set to string');
@@ -7178,26 +7274,7 @@ html body {
 						addData(item.child);
 					}
 					if (item.id == id) {
-						// 以id标识 重复-覆盖,不存在-添加
-						if (Array.isArray(item.child)) {
-							(function () {
-								var originIdMap = {};
-								item.child.forEach(function (originItem, originIndex) {
-									originIdMap[originItem.id] = originIndex;
-								});
-								TreeStore.treeMap(childData, 'child', function (outputItem) {
-									var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
-									if (exist) {
-										console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
-										item.child[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
-									} else {
-										item.child.push(extend(true, {}, outputItem));
-									}
-								});
-							})();
-						} else {
-							item.child = childData;
-						}
+						item.child = extendFn(item.child);
 					}
 				});
 			})(data);
@@ -8325,6 +8402,36 @@ html body {
 
 		//拓展数据
 		TreeStore.extendChild = function (data, id, childData) {
+
+			var extendFn = function extendFn(attrChildData) {
+				// 以id标识 重复-覆盖,不存在-添加
+				if (Array.isArray(attrChildData)) {
+					(function () {
+						var originIdMap = {};
+						attrChildData.forEach(function (originItem, originIndex) {
+							originIdMap[originItem.id] = originIndex;
+						});
+						TreeStore.treeMap(childData, 'child', function (outputItem) {
+							var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
+							if (exist) {
+								console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
+								attrChildData[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
+							} else {
+								attrChildData.push(extend(true, {}, outputItem));
+							}
+						});
+					})();
+				} else {
+					attrChildData = childData;
+				}
+				return attrChildData;
+			};
+
+			// 顶层直接放置
+			if (id === '') {
+				return extendFn(data);
+			}
+
 			//检测是否数字类型并转化
 			if (typeof id == 'number') {
 				console.warn(id + ' is number , its should be set to string');
@@ -8340,26 +8447,7 @@ html body {
 						addData(item.child);
 					}
 					if (item.id == id) {
-						// 以id标识 重复-覆盖,不存在-添加
-						if (Array.isArray(item.child)) {
-							(function () {
-								var originIdMap = {};
-								item.child.forEach(function (originItem, originIndex) {
-									originIdMap[originItem.id] = originIndex;
-								});
-								TreeStore.treeMap(childData, 'child', function (outputItem) {
-									var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
-									if (exist) {
-										console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
-										item.child[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
-									} else {
-										item.child.push(extend(true, {}, outputItem));
-									}
-								});
-							})();
-						} else {
-							item.child = childData;
-						}
+						item.child = extendFn(item.child);
 					}
 				});
 			})(data);
@@ -9469,6 +9557,36 @@ html body {
 
 		//拓展数据
 		TreeStore.extendChild = function (data, id, childData) {
+
+			var extendFn = function extendFn(attrChildData) {
+				// 以id标识 重复-覆盖,不存在-添加
+				if (Array.isArray(attrChildData)) {
+					(function () {
+						var originIdMap = {};
+						attrChildData.forEach(function (originItem, originIndex) {
+							originIdMap[originItem.id] = originIndex;
+						});
+						TreeStore.treeMap(childData, 'child', function (outputItem) {
+							var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
+							if (exist) {
+								console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
+								attrChildData[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
+							} else {
+								attrChildData.push(extend(true, {}, outputItem));
+							}
+						});
+					})();
+				} else {
+					attrChildData = childData;
+				}
+				return attrChildData;
+			};
+
+			// 顶层直接放置
+			if (id === '') {
+				return extendFn(data);
+			}
+
 			//检测是否数字类型并转化
 			if (typeof id == 'number') {
 				console.warn(id + ' is number , its should be set to string');
@@ -9484,26 +9602,7 @@ html body {
 						addData(item.child);
 					}
 					if (item.id == id) {
-						// 以id标识 重复-覆盖,不存在-添加
-						if (Array.isArray(item.child)) {
-							(function () {
-								var originIdMap = {};
-								item.child.forEach(function (originItem, originIndex) {
-									originIdMap[originItem.id] = originIndex;
-								});
-								TreeStore.treeMap(childData, 'child', function (outputItem) {
-									var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
-									if (exist) {
-										console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
-										item.child[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
-									} else {
-										item.child.push(extend(true, {}, outputItem));
-									}
-								});
-							})();
-						} else {
-							item.child = childData;
-						}
+						item.child = extendFn(item.child);
 					}
 				});
 			})(data);
@@ -10409,6 +10508,36 @@ html body {
 
 		//拓展数据
 		TreeStore.extendChild = function (data, id, childData) {
+
+			var extendFn = function extendFn(attrChildData) {
+				// 以id标识 重复-覆盖,不存在-添加
+				if (Array.isArray(attrChildData)) {
+					(function () {
+						var originIdMap = {};
+						attrChildData.forEach(function (originItem, originIndex) {
+							originIdMap[originItem.id] = originIndex;
+						});
+						TreeStore.treeMap(childData, 'child', function (outputItem) {
+							var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
+							if (exist) {
+								console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
+								attrChildData[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
+							} else {
+								attrChildData.push(extend(true, {}, outputItem));
+							}
+						});
+					})();
+				} else {
+					attrChildData = childData;
+				}
+				return attrChildData;
+			};
+
+			// 顶层直接放置
+			if (id === '') {
+				return extendFn(data);
+			}
+
 			//检测是否数字类型并转化
 			if (typeof id == 'number') {
 				console.warn(id + ' is number , its should be set to string');
@@ -10424,26 +10553,7 @@ html body {
 						addData(item.child);
 					}
 					if (item.id == id) {
-						// 以id标识 重复-覆盖,不存在-添加
-						if (Array.isArray(item.child)) {
-							(function () {
-								var originIdMap = {};
-								item.child.forEach(function (originItem, originIndex) {
-									originIdMap[originItem.id] = originIndex;
-								});
-								TreeStore.treeMap(childData, 'child', function (outputItem) {
-									var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
-									if (exist) {
-										console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
-										item.child[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
-									} else {
-										item.child.push(extend(true, {}, outputItem));
-									}
-								});
-							})();
-						} else {
-							item.child = childData;
-						}
+						item.child = extendFn(item.child);
 					}
 				});
 			})(data);
@@ -11345,6 +11455,36 @@ html body {
 
 		//拓展数据
 		TreeStore.extendChild = function (data, id, childData) {
+
+			var extendFn = function extendFn(attrChildData) {
+				// 以id标识 重复-覆盖,不存在-添加
+				if (Array.isArray(attrChildData)) {
+					(function () {
+						var originIdMap = {};
+						attrChildData.forEach(function (originItem, originIndex) {
+							originIdMap[originItem.id] = originIndex;
+						});
+						TreeStore.treeMap(childData, 'child', function (outputItem) {
+							var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
+							if (exist) {
+								console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
+								attrChildData[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
+							} else {
+								attrChildData.push(extend(true, {}, outputItem));
+							}
+						});
+					})();
+				} else {
+					attrChildData = childData;
+				}
+				return attrChildData;
+			};
+
+			// 顶层直接放置
+			if (id === '') {
+				return extendFn(data);
+			}
+
 			//检测是否数字类型并转化
 			if (typeof id == 'number') {
 				console.warn(id + ' is number , its should be set to string');
@@ -11360,26 +11500,7 @@ html body {
 						addData(item.child);
 					}
 					if (item.id == id) {
-						// 以id标识 重复-覆盖,不存在-添加
-						if (Array.isArray(item.child)) {
-							(function () {
-								var originIdMap = {};
-								item.child.forEach(function (originItem, originIndex) {
-									originIdMap[originItem.id] = originIndex;
-								});
-								TreeStore.treeMap(childData, 'child', function (outputItem) {
-									var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
-									if (exist) {
-										console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
-										item.child[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
-									} else {
-										item.child.push(extend(true, {}, outputItem));
-									}
-								});
-							})();
-						} else {
-							item.child = childData;
-						}
+						item.child = extendFn(item.child);
 					}
 				});
 			})(data);
@@ -12509,6 +12630,36 @@ html body {
 
 		//拓展数据
 		TreeStore.extendChild = function (data, id, childData) {
+
+			var extendFn = function extendFn(attrChildData) {
+				// 以id标识 重复-覆盖,不存在-添加
+				if (Array.isArray(attrChildData)) {
+					(function () {
+						var originIdMap = {};
+						attrChildData.forEach(function (originItem, originIndex) {
+							originIdMap[originItem.id] = originIndex;
+						});
+						TreeStore.treeMap(childData, 'child', function (outputItem) {
+							var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
+							if (exist) {
+								console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
+								attrChildData[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
+							} else {
+								attrChildData.push(extend(true, {}, outputItem));
+							}
+						});
+					})();
+				} else {
+					attrChildData = childData;
+				}
+				return attrChildData;
+			};
+
+			// 顶层直接放置
+			if (id === '') {
+				return extendFn(data);
+			}
+
 			//检测是否数字类型并转化
 			if (typeof id == 'number') {
 				console.warn(id + ' is number , its should be set to string');
@@ -12524,26 +12675,7 @@ html body {
 						addData(item.child);
 					}
 					if (item.id == id) {
-						// 以id标识 重复-覆盖,不存在-添加
-						if (Array.isArray(item.child)) {
-							(function () {
-								var originIdMap = {};
-								item.child.forEach(function (originItem, originIndex) {
-									originIdMap[originItem.id] = originIndex;
-								});
-								TreeStore.treeMap(childData, 'child', function (outputItem) {
-									var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
-									if (exist) {
-										console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
-										item.child[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
-									} else {
-										item.child.push(extend(true, {}, outputItem));
-									}
-								});
-							})();
-						} else {
-							item.child = childData;
-						}
+						item.child = extendFn(item.child);
 					}
 				});
 			})(data);
@@ -13498,6 +13630,36 @@ html body {
 
 		//拓展数据
 		TreeStore.extendChild = function (data, id, childData) {
+
+			var extendFn = function extendFn(attrChildData) {
+				// 以id标识 重复-覆盖,不存在-添加
+				if (Array.isArray(attrChildData)) {
+					(function () {
+						var originIdMap = {};
+						attrChildData.forEach(function (originItem, originIndex) {
+							originIdMap[originItem.id] = originIndex;
+						});
+						TreeStore.treeMap(childData, 'child', function (outputItem) {
+							var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
+							if (exist) {
+								console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
+								attrChildData[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
+							} else {
+								attrChildData.push(extend(true, {}, outputItem));
+							}
+						});
+					})();
+				} else {
+					attrChildData = childData;
+				}
+				return attrChildData;
+			};
+
+			// 顶层直接放置
+			if (id === '') {
+				return extendFn(data);
+			}
+
 			//检测是否数字类型并转化
 			if (typeof id == 'number') {
 				console.warn(id + ' is number , its should be set to string');
@@ -13513,26 +13675,7 @@ html body {
 						addData(item.child);
 					}
 					if (item.id == id) {
-						// 以id标识 重复-覆盖,不存在-添加
-						if (Array.isArray(item.child)) {
-							(function () {
-								var originIdMap = {};
-								item.child.forEach(function (originItem, originIndex) {
-									originIdMap[originItem.id] = originIndex;
-								});
-								TreeStore.treeMap(childData, 'child', function (outputItem) {
-									var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
-									if (exist) {
-										console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
-										item.child[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
-									} else {
-										item.child.push(extend(true, {}, outputItem));
-									}
-								});
-							})();
-						} else {
-							item.child = childData;
-						}
+						item.child = extendFn(item.child);
 					}
 				});
 			})(data);
@@ -14446,6 +14589,36 @@ html body {
 
 		//拓展数据
 		TreeStore.extendChild = function (data, id, childData) {
+
+			var extendFn = function extendFn(attrChildData) {
+				// 以id标识 重复-覆盖,不存在-添加
+				if (Array.isArray(attrChildData)) {
+					(function () {
+						var originIdMap = {};
+						attrChildData.forEach(function (originItem, originIndex) {
+							originIdMap[originItem.id] = originIndex;
+						});
+						TreeStore.treeMap(childData, 'child', function (outputItem) {
+							var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
+							if (exist) {
+								console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
+								attrChildData[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
+							} else {
+								attrChildData.push(extend(true, {}, outputItem));
+							}
+						});
+					})();
+				} else {
+					attrChildData = childData;
+				}
+				return attrChildData;
+			};
+
+			// 顶层直接放置
+			if (id === '') {
+				return extendFn(data);
+			}
+
 			//检测是否数字类型并转化
 			if (typeof id == 'number') {
 				console.warn(id + ' is number , its should be set to string');
@@ -14461,26 +14634,7 @@ html body {
 						addData(item.child);
 					}
 					if (item.id == id) {
-						// 以id标识 重复-覆盖,不存在-添加
-						if (Array.isArray(item.child)) {
-							(function () {
-								var originIdMap = {};
-								item.child.forEach(function (originItem, originIndex) {
-									originIdMap[originItem.id] = originIndex;
-								});
-								TreeStore.treeMap(childData, 'child', function (outputItem) {
-									var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
-									if (exist) {
-										console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
-										item.child[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
-									} else {
-										item.child.push(extend(true, {}, outputItem));
-									}
-								});
-							})();
-						} else {
-							item.child = childData;
-						}
+						item.child = extendFn(item.child);
 					}
 				});
 			})(data);
@@ -15428,6 +15582,36 @@ html body {
 
 		//拓展数据
 		TreeStore.extendChild = function (data, id, childData) {
+
+			var extendFn = function extendFn(attrChildData) {
+				// 以id标识 重复-覆盖,不存在-添加
+				if (Array.isArray(attrChildData)) {
+					(function () {
+						var originIdMap = {};
+						attrChildData.forEach(function (originItem, originIndex) {
+							originIdMap[originItem.id] = originIndex;
+						});
+						TreeStore.treeMap(childData, 'child', function (outputItem) {
+							var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
+							if (exist) {
+								console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
+								attrChildData[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
+							} else {
+								attrChildData.push(extend(true, {}, outputItem));
+							}
+						});
+					})();
+				} else {
+					attrChildData = childData;
+				}
+				return attrChildData;
+			};
+
+			// 顶层直接放置
+			if (id === '') {
+				return extendFn(data);
+			}
+
 			//检测是否数字类型并转化
 			if (typeof id == 'number') {
 				console.warn(id + ' is number , its should be set to string');
@@ -15443,26 +15627,7 @@ html body {
 						addData(item.child);
 					}
 					if (item.id == id) {
-						// 以id标识 重复-覆盖,不存在-添加
-						if (Array.isArray(item.child)) {
-							(function () {
-								var originIdMap = {};
-								item.child.forEach(function (originItem, originIndex) {
-									originIdMap[originItem.id] = originIndex;
-								});
-								TreeStore.treeMap(childData, 'child', function (outputItem) {
-									var exist = typeof originIdMap[outputItem.id] == 'undefined' ? false : true;
-									if (exist) {
-										console.warn('The child properties of ' + outputItem.id + ' is overwritten !');
-										item.child[originIdMap[outputItem.id]] = extend(true, {}, outputItem);
-									} else {
-										item.child.push(extend(true, {}, outputItem));
-									}
-								});
-							})();
-						} else {
-							item.child = childData;
-						}
+						item.child = extendFn(item.child);
 					}
 				});
 			})(data);
