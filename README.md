@@ -348,7 +348,7 @@ console.log("data4.data : \n",data4.data)
 
 ````js
 var TreeStore = require('tree-store') ;
-var data5 = TreeStore.extendChild(template_data,'1_1_1',[
+var data5 = TreeStore.extendChild(template_data,'1_1_2',[
     {
         id:'1_1_2_1',
         text:'text-1_1_2_1',
@@ -358,7 +358,7 @@ var data5 = TreeStore.extendChild(template_data,'1_1_1',[
         text:'text-1_1_2_2',
     }
 ])
-console.log("data5 : \n",JSON.stringify(data5))
+console.log("data5 : \n",data5)
 /*
 [
     {
