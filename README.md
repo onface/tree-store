@@ -94,7 +94,7 @@ window.template_data  =  [
 ````
 
 ### 示例数据源
-> 此数据缺少两个主要key: **id** **child** , 需要进行key的转化绑定 
+> 此数据缺少两个主要key: **id** **child** , 需要进行key的转化绑定
 
 ````js
 window.template_data_attr = [
@@ -154,13 +154,15 @@ window.template_data_attr = [
 
 ````js
 var TreeStore = require('tree-store') ;
+console.group('TreeStore.treeMap')
 var data1 = TreeStore.treeMap( template_data_attr , 'node' , function ( item ) {
     // 如果配置parentArray 则可以打印出此属性
-    console.log(item.value,item['__TreeStore_parentArray'])
+    console.log('item.value : \n',item.value,' item[\'__TreeStore_parentArray\'] : \n',item['__TreeStore_parentArray'])
     item.value = 'id'+item.value.toString()
     return item
 } , true )
-console.log(data1)
+console.log('data1 : \n',data1)
+console.groupEnd()
 /*	template_data_attr 数据中每个 value 转换成字符类型 并添加id前缀
 [
     {
@@ -221,7 +223,7 @@ var TreeStore = require('tree-store') ;
 var data2 = TreeStore.treeFilter(template_data_attr,'node',function (item){
     return (!/2/g.test(item.value))
 })
-console.log(data2)
+console.log('data2 : \n',data2)
 /*  template_data_attr 数据中每个 value 中匹配到`2`的都过滤掉
 [
     {
@@ -288,7 +290,7 @@ var data4 = TreeStore(template_data_attr,{
     //模板数据 child 对应 示例数据的 node
     child :  'node' ,
 })
-console.log(data4.data)
+console.log("data4.data : \n",data4.data)
 /*	示例数据经过处理后
 [
     {
@@ -346,7 +348,7 @@ console.log(data4.data)
 
 ````js
 var TreeStore = require('tree-store') ;
-var data5 = TreeStore.extendChild(template_data,'1_1_2',[
+var data5 = TreeStore.extendChild(template_data,'1_1_1',[
     {
         id:'1_1_2_1',
         text:'text-1_1_2_1',
@@ -356,7 +358,7 @@ var data5 = TreeStore.extendChild(template_data,'1_1_2',[
         text:'text-1_1_2_2',
     }
 ])
-console.log(data5)
+console.log("data5 : \n",JSON.stringify(data5))
 /*
 [
     {
@@ -448,9 +450,9 @@ console.log(data5)
 ````js
 var TreeStore = require('tree-store') ;
 var demo1 = TreeStore(template_data)
-console.log(demo1.getChildIds("2"))
+console.log('demo1.getChildIds("2") : \n',demo1.getChildIds("2"))
 //	["2_1","2_2"]
-console.log(demo1.getChildIds(["1_2","2"]))
+console.log('demo1.getChildIds(["1_2","2"]) : \n',demo1.getChildIds(["1_2","2"]))
 /*
 [
     ["1_2_1","1_2_2"],
@@ -469,16 +471,16 @@ console.log(demo1.getChildIds(["1_2","2"]))
 ````js
 var TreeStore = require('tree-store') ;
 var demo2 = TreeStore(template_data)
-console.log( demo2.getChildAllIds('1') )
+console.log( "demo2.getChildAllIds('1') : \n",demo2.getChildAllIds('1') )
 //	["1_1","1_2","1_1_1","1_1_2","1_1_1_1","1_1_1_2","1_2_1","1_2_2"]
-console.log( demo2.getChildAllIds( [ '1_2' , '1_1_1' ] ) )
+console.log( "demo2.getChildAllIds( [ '1_2' , '1_1_1' ] ) : \n",demo2.getChildAllIds( [ '1_2' , '1_1_1' ] ) )
 /*
 [
     ["1_2_1","1_2_2"],
     ["1_1_1_1","1_1_1_2"]
 ]
 */
-console.log( demo2.getChildAllIds() )
+console.log( "demo2.getChildAllIds( [ '1_2' , '1_1_1' ] ) : \n",demo2.getChildAllIds() )
 /*
 {
 	"1":["1_1","1_2","1_1_1","1_1_2","1_1_1_1","1_1_1_2","1_2_1","1_2_2"],
@@ -503,7 +505,7 @@ console.log( demo2.getChildAllIds() )
 ````js
 var TreeStore = require('tree-store') ;
 var demo3 = TreeStore(template_data)
-console.log(demo3.getData('2'))
+console.log("demo3.getData('2') : \n",demo3.getData('2'))
 /*
 {
     "id": "2",
@@ -522,7 +524,7 @@ console.log(demo3.getData('2'))
     ]
 }
 */
-console.log(demo3.getData(['3','2']))
+console.log("demo3.getData(['3','2']) : \n",demo3.getData(['3','2']))
 /*
 [
     {
@@ -736,9 +738,9 @@ console.info(JSON.stringify(demo3.getData()))
 ````js
 var TreeStore = require('tree-store') ;
 var demo4 = TreeStore(template_data)
-console.log(demo4.getParentAllIds('1_1_2'))
+console.log("demo4.getParentAllIds('1_1_2') : \n",demo4.getParentAllIds('1_1_2'))
 // ["1_1","1"]
-console.log(demo4.getParentAllIds( [ '1_1_1_1' , '2_1' ] ) )
+console.log("demo4.getParentAllIds( [ '1_1_1_1' , '2_1' ] ) : \n",demo4.getParentAllIds( [ '1_1_1_1' , '2_1' ] ) )
 /*
 [
     ["1_1_1","1_1","1"],
@@ -756,14 +758,14 @@ console.log(demo4.getParentAllIds( [ '1_1_1_1' , '2_1' ] ) )
 ````js
 var TreeStore = require('tree-store') ;
 var demo6 = TreeStore(template_data)
-console.log(demo6.getChildLeftBranchIds('1_1'))
+console.log("demo6.getChildLeftBranchIds('1_1') : \n",demo6.getChildLeftBranchIds('1_1'))
 /*
 [
     ["1_1_1","1_1_2"],
     ["1_1_1_1","1_1_1_2"]
 ]
 */
-console.log(demo6.getChildLeftBranchIds())
+console.log("demo6.getChildLeftBranchIds() : \n",demo6.getChildLeftBranchIds())
 /*
 [
     ["1","2","3"],
@@ -783,9 +785,9 @@ console.log(demo6.getChildLeftBranchIds())
 ````js
 var TreeStore = require('tree-store') ;
 var demo7 = TreeStore(template_data)
-console.log(demo7.getSiblingIds('1_1'))
+console.log("demo7.getSiblingIds('1_1') : \n",demo7.getSiblingIds('1_1'))
 // ["1_1","1_2"]
-console.log(demo7.getSiblingIds())
+console.log("demo7.getSiblingIds() : \n",demo7.getSiblingIds())
 // ["1", "2", "3"]
 ````
 > 使用场景 : 在下拉框中, 有默认值时, 利用 `getSiblingIds()` 方法可以快速渲染出对应下拉框选项
@@ -880,7 +882,7 @@ window.template_data_tree  =  [
 ````js
 var TreeStore = require('tree-store') ;
 var demo8 = TreeStore(template_data_tree).getChecked()
-console.log(demo8)
+console.log("demo8 : \n",demo8)
 // ["1_1","1_1_1","1_1_1_1","1_1_1_2","2_1"]
 ````
 
@@ -917,7 +919,7 @@ var demo9 = TreeStore(template_data_tree).changeChecked({
         child : false
     }
 })
-console.log(demo9)
+console.log("demo9 : \n",demo9)
 /*
 {
     "change":{
@@ -932,7 +934,7 @@ var demo10 = TreeStore(template_data_tree).changeChecked({
     isChecked : false,
     checkedIds : [ '1' , '1_1' , '1_1_1' , '1_1_1_1' , '2' , '2_1' , '2_2' ]
 })
-console.log(demo10)
+console.log("demo10 : \n",demo10)
 /*
 {
     "change":{
@@ -954,7 +956,7 @@ console.log(demo10)
 ````js
 var TreeStore = require('tree-store') ;
 var demo11 = TreeStore(template_data).changeSelect('1_2')
-console.log(demo11)
+console.log("demo11 : \n",demo11)
 // ["1", "1_2", "1_2_1"]
 ````
 
@@ -980,7 +982,7 @@ var TreeStore = require('tree-store') ;
 var demo12 = TreeStore(template_data).renderSelect({
     checked : ["1", "1_2", "1_2_1"] ,
 })
-console.log(demo12)
+console.log("demo12 : \n",demo12)
 /*
 [
         [

@@ -1,2 +1,2 @@
-export default require('./lib/index')
+// export default require('./lib/index')
 module.exports = require('./lib/index')
