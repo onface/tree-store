@@ -1,6 +1,6 @@
 {
   "name": "tree-store",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "The methods of gaining valid data quickly based on the trees of data | 基于树形数据,能够快速获取有效数据的方法集",
   "main": "index.js",
   "author": "Grifree",
