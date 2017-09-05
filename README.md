@@ -352,10 +352,19 @@ var data5 = TreeStore.extendChild(template_data,'1_1_2',[
     {
         id:'1_1_2_1',
         text:'text-1_1_2_1',
+        child:[
+            {
+                id:'1_1_2_1_1',
+                text:'text-1_1_2_1_1'
+            },{
+                id:'1_1_2_1_2',
+                text:'text-1_1_2_1_2'
+            }
+        ]
     },
     {
         id:'1_1_2_2',
-        text:'text-1_1_2_2',
+        text:'text-1_1_2_2'
     }
 ])
 console.log("data5 : \n",data5)
