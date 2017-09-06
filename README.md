@@ -783,6 +783,10 @@ console.log("demo6.getChildLeftBranchIds() : \n",demo6.getChildLeftBranchIds())
     ["1_1_1_1","1_1_1_2"]
 ]
 */
+console.log("demo6.getChildLeftBranchIds('1_1_1_1') : \n",demo6.getChildLeftBranchIds('1_1_1_1'))
+/*
+[]
+*/
 ````
 > 使用场景 : 在级联下拉框中, 操作某一项时可以获取当前项的ID, 利用 `getChildLeftBranchIds()` 方法可以快速获取后几级下拉框的默认渲染选项, 防止在无值时下拉框都是空白现象
 
