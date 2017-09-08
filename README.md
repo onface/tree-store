@@ -980,14 +980,21 @@ console.log("demo11 : \n",demo11)
 ```
 TreeStore( data ).renderSelect( {
     maxLength : Number,
+    minLength : Number,
     checked : [ id1 , id2 , ... ] ,
+    filObj : {
+        id:'0',
+        text:'all'
+    }
 } )
 ```
 
 |    name   |    type   |   description    |
 |------|------|------|
+|    minLength   |    Number   |    返回结果数组的最小长度(即 渲染的下拉框最少个数) , 此参数可省略  |
 |    maxLength   |    Number   |    返回结果数组的最长长度(即 渲染的下拉框最多个数) , 此参数可省略  |
 |    checked   |    Array   |    已选中的id ( 传入数组长度,需要与渲染的级联下拉框个数相同,没有默认值id时,请传空字符串,保证数组长度 )   |
+|    filObj   |    Object  |   需要填充的数据    |
 
 
 ````js
@@ -1039,6 +1046,15 @@ console.log("demo12 : \n",demo12)
         ]
 ]
 */
+var demo13 = TreeStore(template_data).renderSelect({
+    checked : ["2", "2-1"] ,
+    minLength : 4 ,
+    filObj : {
+        id : '0' ,
+        text : 'all'
+    }
+})
+console.log("demo13 : \n",demo13)
 ````
 
 ## 参与开发 - development
